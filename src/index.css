@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+:root {
+  /* Enhanced Metallic Gold Palette */
+  --color-gold: #D4AF37;
+  /* Metallic Gold */
+  --color-gold-light: #F9E076;
+  /* Pale Gold Highlight */
+  --color-gold-dark: #AA8220;
+  /* Dark Gold Shadow */
+  --color-navy: #0F172A;
+  --color-navy-light: #1E293B;
+}
+
+@layer utilities {
+  .text-gradient-gold {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    /* More complex gradient for metallic shine */
+    background-image: linear-gradient(135deg,
+        var(--color-gold) 0%,
+        #FFF6B2 25%,
+        var(--color-gold) 50%,
+        var(--color-gold-dark) 75%,
+        var(--color-gold) 100%);
+    background-size: 200% auto;
+    animation: shine 4s linear infinite;
+  }
+
+  .bg-gradient-gold {
+    background-image: linear-gradient(135deg,
+        var(--color-gold) 0%,
+        #FCD34D 50%,
+        var(--color-gold-dark) 100%);
+  }
+
+  /* Gold Border Gradient */
+  .border-gradient-gold {
+    border-image: linear-gradient(to right, var(--color-gold-dark), var(--color-gold-light), var(--color-gold-dark)) 1;
+  }
+
+  .text-gradient-navy {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(to right, #0F172A, #334155);
+  }
+
+  .glass-panel {
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    /* Gold tint on border */
+    box-shadow: 0 8px 32px 0 rgba(212, 175, 55, 0.1);
+    /* Gold glow shadow */
+  }
+
+  .glass-card {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .glass-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(212, 175, 55, 0.4);
+    /* Stronger gold border on hover */
+    box-shadow: 0 20px 25px -5px rgba(212, 175, 55, 0.15), 0 8px 10px -6px rgba(212, 175, 55, 0.1);
+  }
+
+  .mesh-bg {
+    background-color: #FAFAF9;
+    background-image:
+      radial-gradient(at 0% 0%, rgba(212, 175, 55, 0.08) 0px, transparent 60%),
+      radial-gradient(at 100% 100%, rgba(15, 23, 42, 0.05) 0px, transparent 60%);
+  }
+
+  @keyframes shine {
+    to {
+      background-position: 200% center;
+    }
+  }
+}
+
+body {
+  @apply bg-gray-50 text-gray-900 antialiased;
+}
+
+body {
+  background-color: #FAFAF9;
+}
