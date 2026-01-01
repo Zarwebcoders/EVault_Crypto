@@ -8,9 +8,9 @@ const Hero = () => {
     const [loopNum, setLoopNum] = useState(0);
     const [typingSpeed, setTypingSpeed] = useState(100);
     const [dailyIncome, setDailyIncome] = useState(0);
-    
+
     const words = ['Passive Income', 'Daily Rewards', 'Automatic Yield'];
-    
+
     const targetDailyIncome = 843.72;
     const animationDuration = 2000; // 2 seconds
 
@@ -20,7 +20,7 @@ const Hero = () => {
             const i = loopNum % words.length;
             const fullText = words[i];
 
-            setText(isDeleting 
+            setText(isDeleting
                 ? fullText.substring(0, text.length - 1)
                 : fullText.substring(0, text.length + 1)
             );
@@ -111,7 +111,7 @@ const Hero = () => {
                             with EVault
                         </motion.h1>
 
-                        
+
 
                         <motion.p
                             initial={{ opacity: 0, y: 20 }}
@@ -135,7 +135,7 @@ const Hero = () => {
                                 </span>
                                 <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                             </button>
-                            
+
                             <button className="border-2 border-[#0F172A] text-[#0F172A] hover:bg-[#0F172A] hover:text-white text-lg font-bold py-4 px-8 rounded-xl transition-all duration-300 flex items-center justify-center gap-2">
                                 <DollarSign size={20} />
                                 <span>Calculate APY</span>

@@ -9,6 +9,7 @@ import {
     XMarkIcon,
     DocumentCheckIcon
 } from '@heroicons/react/24/outline';
+import eVault_Logo from '../../../public/eVaultLogoTransparent2.png';
 
 const AdminLayout = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -36,10 +37,11 @@ const AdminLayout = () => {
 
             {/* Sidebar */}
             <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-gray-900 text-white shadow-xl transform transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
-                <div className="flex items-center justify-between h-16 px-6 border-b border-gray-800">
-                    <h1 className="text-xl font-bold text-[#FFD700]">
+                <div className="flex items-center justify-between h-30 px-6 border-b border-gray-800">
+                    {/* <h1 className="text-xl font-bold text-[#FFD700]">
                         EVault <span className="text-white font-light">Admin</span>
-                    </h1>
+                    </h1> */}
+                    <img src={eVault_Logo} alt="eVault Logo" />
                     <button className="md:hidden" onClick={() => setSidebarOpen(false)}>
                         <XMarkIcon className="w-6 h-6 text-gray-400" />
                     </button>
@@ -51,8 +53,8 @@ const AdminLayout = () => {
                             key={item.name}
                             to={item.href}
                             className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 ${isActive(item.href)
-                                    ? 'bg-[#D4AF37] text-white'
-                                    : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                                ? 'bg-[#D4AF37] text-white'
+                                : 'text-gray-400 hover:bg-gray-800 hover:text-white'
                                 }`}
                         >
                             <item.icon className="w-5 h-5 mr-3" />
@@ -83,7 +85,7 @@ const AdminLayout = () => {
                 </header>
 
                 {/* Page Content */}
-                <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+                <main className="flex-1 p-4 sm:p-6 lg:p-4 overflow-y-auto mesh-bg relative">
                     <Outlet />
                 </main>
             </div>

@@ -49,7 +49,7 @@ function App() {
   return (
     <CryptoProvider>
       <Router>
-        <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
+        <div className="min-h-screen bg-transparent flex flex-col font-sans">
           <Routes>
             {/* Routes with Header and Footer */}
             <Route path="/" element={

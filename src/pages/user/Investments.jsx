@@ -3,7 +3,7 @@ import { useCrypto } from '../../context/CryptoContext';
 import { CalculatorIcon, ClockIcon } from '@heroicons/react/24/outline';
 
 const Investments = () => {
-    const { roiRates, addInvestment, investments } = useCrypto();
+    const { roiRates, addInvestment, investments, user } = useCrypto();
     const [selectedMethod, setSelectedMethod] = useState('USDT');
     const [amount, setAmount] = useState('');
     const [projectedReturn, setProjectedReturn] = useState(0);
@@ -44,7 +44,8 @@ const Investments = () => {
         // Add investment
         addInvestment({
             method: selectedMethod,
-            amount: parseFloat(amount)
+            amount: parseFloat(amount),
+            walletAddress: user?.walletAddress || ''
         });
 
         setSuccess('Investment request submitted successfully!');
@@ -184,15 +185,15 @@ const Investments = () => {
                             </thead>
                             <tbody className="divide-y divide-gray-100">
                                 {investments.map((inv) => (
-                                    <tr key={inv.id}>
-                                        <td className="px-6 py-4 text-gray-500">{inv.date}</td>
+                                    <tr key={inv._id}>
+                                        <td className="px-6 py-4 text-gray-500">{new Date(inv.date || inv.createdAt).toLocaleDateString()}</td>
                                         <td className="px-6 py-4 font-medium">{inv.method}</td>
                                         <td className="px-6 py-4">${inv.amount}</td>
                                         <td className="px-6 py-4 text-green-600">+${inv.returns}</td>
                                         <td className="px-6 py-4">
                                             <span className={`px-2 py-1 rounded-full text-xs font-medium ${inv.status === 'Active' ? 'bg-green-100 text-green-700' :
-                                                    inv.status === 'Completed' ? 'bg-blue-100 text-blue-700' :
-                                                        'bg-yellow-100 text-yellow-700'
+                                                inv.status === 'Completed' ? 'bg-blue-100 text-blue-700' :
+                                                    'bg-yellow-100 text-yellow-700'
                                                 }`}>
                                                 {inv.status}
                                             </span>

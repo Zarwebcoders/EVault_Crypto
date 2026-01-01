@@ -3,7 +3,11 @@ import { useCrypto } from '../../context/CryptoContext';
 import { PaperAirplaneIcon } from '@heroicons/react/24/outline';
 
 const Withdrawals = () => {
-    const { user, withdrawals, requestWithdrawal, roiRates } = useCrypto();
+    const { user, withdrawals, requestWithdrawal, roiRates, addFunds, loading } = useCrypto();
+
+    if (loading || !user) {
+        return <div className="p-10 text-center text-gray-500">Loading user data...</div>;
+    }
     const [amount, setAmount] = useState('');
     const [method, setMethod] = useState('USDT');
     const [walletAddress, setWalletAddress] = useState('');
@@ -52,7 +56,21 @@ const Withdrawals = () => {
                     <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-8">
                         <div className="mb-6 bg-gradient-to-r from-[#D4AF37]/10 to-transparent p-4 rounded-lg border-l-4 border-[#D4AF37]">
                             <p className="text-gray-600 text-sm">Available Balance</p>
-                            <p className="text-3xl font-bold text-[#D4AF37]">${user.balance.toFixed(2)}</p>
+                            <div className="flex justify-between items-center">
+                                <p className="text-3xl font-bold text-[#D4AF37]">${user.balance.toFixed(2)}</p>
+                                {user.balance < 50 && (
+                                    <button
+                                        onClick={async () => {
+                                            const res = await addFunds();
+                                            if (res.success) setSuccess(res.message);
+                                            else setError(res.message);
+                                        }}
+                                        className="text-xs bg-gray-900 text-white px-3 py-1.5 rounded-lg hover:bg-gray-800 transition-colors"
+                                    >
+                                        + Add Test Funds
+                                    </button>
+                                )}
+                            </div>
                         </div>
 
                         {error && <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-lg text-sm">{error}</div>}
@@ -148,15 +166,15 @@ const Withdrawals = () => {
                         </thead>
                         <tbody className="divide-y divide-gray-100">
                             {withdrawals.map((w) => (
-                                <tr key={w.id}>
-                                    <td className="px-6 py-4 text-gray-500">#{w.id}</td>
-                                    <td className="px-6 py-4 text-gray-500">{w.date}</td>
+                                <tr key={w._id}>
+                                    <td className="px-6 py-4 text-gray-500">#{w._id.slice(-6)}...</td>
+                                    <td className="px-6 py-4 text-gray-500">{new Date(w.date || w.createdAt).toLocaleDateString()}</td>
                                     <td className="px-6 py-4 font-medium text-gray-900">${w.amount}</td>
                                     <td className="px-6 py-4">{w.method}</td>
                                     <td className="px-6 py-4">
                                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${w.status === 'Approved' ? 'bg-green-100 text-green-700' :
-                                                w.status === 'Rejected' ? 'bg-red-100 text-red-700' :
-                                                    'bg-yellow-100 text-yellow-700'
+                                            w.status === 'Rejected' ? 'bg-red-100 text-red-700' :
+                                                'bg-yellow-100 text-yellow-700'
                                             }`}>
                                             {w.status}
                                         </span>

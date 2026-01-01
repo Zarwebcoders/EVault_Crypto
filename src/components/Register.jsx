@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, ArrowRight, User, CheckCircle2 } from 'lucide-react';
 import eVault_Logo from '../../public/eVaultLogoWithBG.png';
+import { useCrypto } from '../context/CryptoContext';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -14,24 +16,37 @@ const Register = () => {
         confirmPassword: '',
         agreeToTerms: false
     });
-    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const { register } = useCrypto();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError(null);
+
         if (formData.password !== formData.confirmPassword) {
-            alert('Passwords do not match!');
+            setError('Passwords do not match!');
             return;
         }
         if (!formData.agreeToTerms) {
-            alert('Please agree to the terms and conditions');
+            setError('Please agree to the terms and conditions');
             return;
         }
         setIsLoading(true);
-        // Simulate API call
-        setTimeout(() => {
+
+        try {
+            const result = await register(formData.fullName, formData.email, formData.password);
+            if (result.success) {
+                navigate('/dashboard');
+            } else {
+                setError(result.message || 'Registration failed');
+            }
+        } catch (error) {
+            console.error(error);
+            setError('An error occurred during registration');
+        } finally {
             setIsLoading(false);
-            console.log('Registration submitted:', formData);
-        }, 2000);
+        }
     };
 
     const handleChange = (e) => {
@@ -40,6 +55,7 @@ const Register = () => {
             ...formData,
             [name]: type === 'checkbox' ? checked : value
         });
+        if (error) setError(null);
     };
 
     return (
@@ -75,6 +91,17 @@ const Register = () => {
                             <h1 className="text-2xl font-black text-navy tracking-tight mb-1">Create Account</h1>
                             <p className="text-sm text-gray-500 font-medium">Join eVault today</p>
                         </div>
+
+                        {/* Error Message */}
+                        {error && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-600 text-sm font-medium flex items-center justify-center shrink-0"
+                            >
+                                {error}
+                            </motion.div>
+                        )}
 
                         {/* Form */}
                         <form onSubmit={handleSubmit} className="space-y-3 shrink-0">

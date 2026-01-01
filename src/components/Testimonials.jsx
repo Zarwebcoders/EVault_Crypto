@@ -68,7 +68,7 @@ const testimonials = [
 const Testimonials = () => {
     return (
         <section id="testimonials" className="py-24 relative overflow-hidden">
-            
+
 
             <div className="container mx-auto px-6 relative z-10">
                 {/* Header */}
@@ -82,7 +82,7 @@ const Testimonials = () => {
                         <Sparkles size={12} />
                         Community Love
                     </motion.div>
-                    
+
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -91,7 +91,7 @@ const Testimonials = () => {
                     >
                         Trusted by <span className="text-gradient-gold">45,000+</span> Investors
                     </motion.h2>
-                    
+
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -111,14 +111,14 @@ const Testimonials = () => {
                             initial={{ opacity: 0, y: 30, scale: 0.95 }}
                             whileInView={{ opacity: 1, y: 0, scale: 1 }}
                             viewport={{ once: true, margin: "-50px" }}
-                            transition={{ 
-                                duration: 0.5, 
+                            transition={{
+                                duration: 0.5,
                                 delay: i * 0.1,
                                 type: "spring",
                                 stiffness: 100
                             }}
-                            whileHover={{ 
-                                y: -8, 
+                            whileHover={{
+                                y: -8,
                                 scale: 1.02,
                                 transition: { duration: 0.2 }
                             }}
@@ -126,10 +126,10 @@ const Testimonials = () => {
                         >
                             {/* Card Container */}
                             <div className="relative bg-gradient-to-br from-white to-gray-50 rounded-3xl p-8 shadow-xl border-2 border-gray-200 hover:border-[#D4AF37]/80 hover:shadow-2xl hover:shadow-[#D4AF37]/20 transition-all duration-500 h-full overflow-hidden">
-                                
+
                                 {/* Background Pattern */}
                                 <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-[#D4AF37]/50 to-[#D4AF37]/50 rounded-bl-3xl -translate-y-16 translate-x-16 rotate-12"></div>
-                                
+
                                 {/* Verified Badge */}
                                 {t.verified && (
                                     <div className="absolute top-6 right-6 flex items-center gap-1 bg-green-50 border border-green-200 text-green-700 px-3 py-1 rounded-full text-xs font-bold">
@@ -137,7 +137,7 @@ const Testimonials = () => {
                                         Verified
                                     </div>
                                 )}
-                                
+
                                 {/* Content */}
                                 <div className="relative z-10">
                                     {/* Stars */}
@@ -146,12 +146,12 @@ const Testimonials = () => {
                                             <Star key={s} size={18} className="fill-[#D4AF37] text-[#D4AF37]" />
                                         ))}
                                     </div>
-                                    
+
                                     {/* Testimonial Text */}
                                     <p className="text-gray-700 text-lg leading-relaxed mb-8 font-medium italic">
                                         "{t.content}"
                                     </p>
-                                    
+
                                     {/* User Info */}
                                     <div className="flex items-start gap-4 border-t border-gray-200/50 pt-6 group-hover:border-[#D4AF37]/20 transition-colors">
                                         {/* Avatar */}
@@ -161,7 +161,7 @@ const Testimonials = () => {
                                                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                                             </div>
                                         </div>
-                                        
+
                                         {/* User Details */}
                                         <div className="flex-1">
                                             <div className="flex items-center gap-2 mb-1">
@@ -169,7 +169,7 @@ const Testimonials = () => {
                                                 <Award size={14} className="text-[#D4AF37]" />
                                             </div>
                                             <div className="text-xs font-bold text-[#D4AF37] uppercase tracking-wider mb-2">{t.role}</div>
-                                            
+
                                             {/* Stats */}
                                             <div className="flex items-center gap-4 text-xs text-gray-500">
                                                 <div className="flex items-center gap-1">
@@ -241,7 +241,7 @@ const Testimonials = () => {
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div className="flex flex-col gap-2">
                             <button className="bg-gradient-to-r from-[#0F172A] to-[#1E293B] text-white font-bold p-3 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2 group">
                                 <span>Get Started Free</span>
@@ -253,7 +253,7 @@ const Testimonials = () => {
                             </button>
                         </div>
                     </div>
-                    
+
                     {/* Trust Badges */}
                     <div className="flex flex-wrap justify-center gap-8 mt-8">
                         <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-gradient-to-r from-white to-gray-50 border border-gray-200 shadow-sm">

@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, User, CheckCircle2 } from 'lucide-react';
 import eVault_Logo from '../../public/eVaultLogoTransparent2.png';
 
+import { useCrypto } from '../context/CryptoContext';
+
 const AuthPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -112,10 +114,27 @@ const SocialIcon = ({ icon }) => (
 );
 
 const SignInForm = ({ toggleMode }) => {
+    const { login } = useCrypto();
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        const res = await login(email, password);
+        if (res.success) {
+            navigate(res.isAdmin ? '/admin' : '/dashboard');
+        } else {
+            alert(res.message || 'Login failed');
+        }
+        setLoading(false);
+    };
 
     return (
-        <form className="w-full max-w-sm space-y-3 py-0" onSubmit={(e) => e.preventDefault()}>
+        <form className="w-full max-w-sm space-y-3 py-0" onSubmit={handleSubmit}>
             <div className="text-center">
                 {/* Mobile Logo */}
                 <div className="md:hidden flex justify-center">
@@ -137,8 +156,11 @@ const SignInForm = ({ toggleMode }) => {
                     </div>
                     <input
                         type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         placeholder="Email Address"
                         className="w-full pl-10 pr-4 py-3 bg-gray-50 border-2 border-gray-500 rounded-xl text-gray-900 placeholder-gray-400 focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 outline-none transition-all font-medium"
+                        required
                     />
                 </div>
                 <div className="relative group">
@@ -147,8 +169,11 @@ const SignInForm = ({ toggleMode }) => {
                     </div>
                     <input
                         type={showPassword ? "text" : "password"}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         placeholder="Password"
                         className="w-full pl-10 pr-12 py-3 bg-gray-50 border-2 border-gray-500 rounded-xl text-gray-900 placeholder-gray-400 focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 outline-none transition-all font-medium"
+                        required
                     />
                     <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#0F172A]">
                         {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
@@ -160,8 +185,8 @@ const SignInForm = ({ toggleMode }) => {
                 <a href="#" className="text-[#0F172A] hover:text-[#D4AF37] transition-colors">Forgot Password?</a>
             </div>
 
-            <button className="w-full bg-[#0F172A] text-white font-bold py-4 rounded-xl hover:bg-[#D4AF37] hover:text-[#0F172A] transition-all duration-300 mt-6 shadow-xl shadow-[#0F172A]/20 transform hover:-translate-y-0.5">
-                Sign In
+            <button type="submit" disabled={loading} className="w-full bg-[#0F172A] text-white font-bold py-4 rounded-xl hover:bg-[#D4AF37] hover:text-[#0F172A] transition-all duration-300 mt-6 shadow-xl shadow-[#0F172A]/20 transform hover:-translate-y-0.5 disabled:opacity-50">
+                {loading ? 'Signing In...' : 'Sign In'}
             </button>
 
             {/* Mobile only switch */}
@@ -176,8 +201,27 @@ const SignInForm = ({ toggleMode }) => {
 };
 
 const SignUpForm = ({ toggleMode }) => {
+    const { register } = useCrypto();
+    const navigate = useNavigate();
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        const res = await register(name, email, password);
+        if (res.success) {
+            navigate('/dashboard');
+        } else {
+            alert(res.message || 'Registration failed');
+        }
+        setLoading(false);
+    };
+
     return (
-        <form className="w-full max-w-sm space-y-5 py-8 md:py-0" onSubmit={(e) => e.preventDefault()}>
+        <form className="w-full max-w-sm space-y-5 py-8 md:py-0" onSubmit={handleSubmit}>
             <div className="text-center mb-6">
                 {/* Mobile Logo */}
                 <div className="md:hidden flex justify-center mb-6">
@@ -197,24 +241,45 @@ const SignUpForm = ({ toggleMode }) => {
                     <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#D4AF37] transition-colors">
                         <User size={20} />
                     </div>
-                    <input type="text" placeholder="Full Name" className="w-full pl-12 pr-4 py-4 bg-gray-50 border-2 border-gray-500 rounded-xl text-gray-900 placeholder-gray-400 focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 outline-none transition-all font-medium" />
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Full Name"
+                        className="w-full pl-12 pr-4 py-4 bg-gray-50 border-2 border-gray-500 rounded-xl text-gray-900 placeholder-gray-400 focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 outline-none transition-all font-medium"
+                        required
+                    />
                 </div>
                 <div className="relative group">
                     <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#D4AF37] transition-colors">
                         <Mail size={20} />
                     </div>
-                    <input type="email" placeholder="Email Address" className="w-full pl-12 pr-4 py-4 bg-gray-50 border-2 border-gray-500 rounded-xl text-gray-900 placeholder-gray-400 focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 outline-none transition-all font-medium" />
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="Email Address"
+                        className="w-full pl-12 pr-4 py-4 bg-gray-50 border-2 border-gray-500 rounded-xl text-gray-900 placeholder-gray-400 focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 outline-none transition-all font-medium"
+                        required
+                    />
                 </div>
                 <div className="relative group">
                     <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#D4AF37] transition-colors">
                         <Lock size={20} />
                     </div>
-                    <input type="password" placeholder="Password" className="w-full pl-12 pr-4 py-4 bg-gray-50 border-2 border-gray-500 rounded-xl text-gray-900 placeholder-gray-400 focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 outline-none transition-all font-medium" />
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Password"
+                        className="w-full pl-12 pr-4 py-4 bg-gray-50 border-2 border-gray-500 rounded-xl text-gray-900 placeholder-gray-400 focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 outline-none transition-all font-medium"
+                        required
+                    />
                 </div>
             </div>
 
-            <button className="w-full bg-[#0F172A] text-white font-bold py-4 rounded-xl hover:bg-[#D4AF37] hover:text-[#0F172A] transition-all duration-300 mt-6 shadow-xl shadow-[#0F172A]/20 transform hover:-translate-y-0.5">
-                Sign Up
+            <button type="submit" disabled={loading} className="w-full bg-[#0F172A] text-white font-bold py-4 rounded-xl hover:bg-[#D4AF37] hover:text-[#0F172A] transition-all duration-300 mt-6 shadow-xl shadow-[#0F172A]/20 transform hover:-translate-y-0.5 disabled:opacity-50">
+                {loading ? 'Signing Up...' : 'Sign Up'}
             </button>
 
             {/* Mobile only switch */}

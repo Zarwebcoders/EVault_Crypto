@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';
 import eVault_Logo from '../../public/eVaultLogoWithBG.png';
+import { useCrypto } from '../context/CryptoContext';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -10,16 +12,29 @@ const Login = () => {
         email: '',
         password: ''
     });
-    const [isLoading, setIsLoading] = useState(false);
+
+    const [error, setError] = useState(null);
+    const { login } = useCrypto();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        // Simulate API call
-        setTimeout(() => {
+        setError(null);
+
+        try {
+            const result = await login(formData.email, formData.password);
+            if (result.success) {
+                navigate(result.isAdmin ? '/admin' : '/dashboard');
+            } else {
+                setError(result.message || 'Login failed. Please check your credentials.');
+            }
+        } catch (error) {
+            console.error(error);
+            setError('An error occurred during login. Please try again.');
+        } finally {
             setIsLoading(false);
-            console.log('Login submitted:', formData);
-        }, 2000);
+        }
     };
 
     const handleChange = (e) => {
@@ -27,6 +42,8 @@ const Login = () => {
             ...formData,
             [e.target.name]: e.target.value
         });
+        // Clear error when user types
+        if (error) setError(null);
     };
 
     return (
@@ -62,6 +79,17 @@ const Login = () => {
                             <h1 className="text-2xl font-black text-navy tracking-tight mb-1">Welcome Back</h1>
                             <p className="text-sm text-gray-500 font-medium">Log in to manage your vault</p>
                         </div>
+
+                        {/* Error Message */}
+                        {error && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-600 text-sm font-medium flex items-center justify-center"
+                            >
+                                {error}
+                            </motion.div>
+                        )}
 
                         {/* Form */}
                         <form onSubmit={handleSubmit} className="space-y-4">

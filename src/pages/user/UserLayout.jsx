@@ -9,6 +9,7 @@ import {
     XMarkIcon
 } from '@heroicons/react/24/outline';
 import { useCrypto } from '../../context/CryptoContext';
+import eVault_Logo from '../../../public/eVaultLogoWithBG.png';
 
 const UserLayout = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -26,7 +27,7 @@ const UserLayout = () => {
     const isActive = (path) => location.pathname === path;
 
     return (
-        <div className="min-h-screen bg-[#F5F5F5] font-sans">
+        <div className="min-h-screen bg-gray-50 font-sans">
             {/* Mobile sidebar overlay */}
             {sidebarOpen && (
                 <div
@@ -37,10 +38,8 @@ const UserLayout = () => {
 
             {/* Sidebar */}
             <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-xl transform transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
-                <div className="flex items-center justify-between h-16 px-6 border-b border-gray-100">
-                    <h1 className="text-2xl font-bold bg-gradient-to-r from-[#D4AF37] to-[#FFD700] bg-clip-text text-transparent">
-                        EVault
-                    </h1>
+                <div className="flex items-center justify-between h-40 px-6 border-b border-gray-100">
+                    <img src={eVault_Logo} alt="eVault Logo" />
                     <button className="md:hidden" onClick={() => setSidebarOpen(false)}>
                         <XMarkIcon className="w-6 h-6 text-gray-500" />
                     </button>
@@ -51,9 +50,9 @@ const UserLayout = () => {
                         <Link
                             key={item.name}
                             to={item.href}
-                            className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 ${isActive(item.href)
-                                    ? 'bg-gradient-to-r from-[#D4AF37]/10 to-[#FFD700]/10 text-[#D4AF37] border-r-4 border-[#D4AF37]'
-                                    : 'text-gray-600 hover:bg-gray-50 hover:text-[#D4AF37]'
+                            className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 group relative overflow-hidden ${isActive(item.href)
+                                ? 'text-[#D4AF37] bg-[#D4AF37]/5 border-r-2 border-[#D4AF37]'
+                                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                                 }`}
                         >
                             <item.icon className="w-5 h-5 mr-3" />
@@ -62,16 +61,16 @@ const UserLayout = () => {
                     ))}
                 </nav>
 
-                <div className="absolute bottom-0 w-full p-6 border-t border-gray-100">
-                    <div className="flex items-center">
+                <div className="absolute bottom-0 w-full p-4 border-t border-gray-100 bg-gray-50/50">
+                    <div className="flex items-center p-2 rounded-lg hover:bg-white hover:shadow-sm transition-all cursor-pointer group">
                         <div className="flex-shrink-0">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#FFD700] flex items-center justify-center text-white font-bold">
-                                {user.name.charAt(0)}
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#B4941F] flex items-center justify-center text-white font-bold shadow-md group-hover:scale-105 transition-transform">
+                                {(user?.name || 'User').charAt(0)}
                             </div>
                         </div>
                         <div className="ml-3">
-                            <p className="text-sm font-medium text-gray-900">{user.name}</p>
-                            <p className="text-xs text-gray-500">Connected</p>
+                            <p className="text-sm font-medium text-gray-900 group-hover:text-[#D4AF37] transition-colors">{user?.name || 'User'}</p>
+                            <p className="text-xs text-gray-500">View Profile</p>
                         </div>
                     </div>
                 </div>
@@ -79,8 +78,8 @@ const UserLayout = () => {
 
             {/* Main Content */}
             <div className="md:pl-64 flex flex-col min-h-screen">
-                {/* Top Header */}
-                <header className="bg-white shadow-sm h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8">
+                {/* Bottom Border to separate header from content */}
+                <header className="bg-white shadow-sm h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8 border-b border-gray-100">
                     <button
                         type="button"
                         className="md:hidden p-2 text-gray-400 hover:text-gray-500"
@@ -92,9 +91,9 @@ const UserLayout = () => {
                     <div className="flex-1 flex justify-end items-center space-x-4">
                         {/* Wallet Status */}
                         <div className="hidden sm:flex items-center px-4 py-1.5 rounded-full border border-[#D4AF37] bg-[#D4AF37]/5">
-                            <div className={`w-2 h-2 rounded-full mr-2 ${user.walletConnected ? 'bg-green-500' : 'bg-gray-400'}`}></div>
+                            <div className={`w-2 h-2 rounded-full mr-2 ${user?.walletConnected ? 'bg-green-500' : 'bg-gray-400'}`}></div>
                             <span className="text-sm font-medium text-[#D4AF37]">
-                                {user.walletConnected ? 'Wallet Connected' : 'Wallet Disconnected'}
+                                {user?.walletConnected ? 'Wallet Connected' : 'Wallet Disconnected'}
                             </span>
                         </div>
 
@@ -108,8 +107,8 @@ const UserLayout = () => {
                     </div>
                 </header>
 
-                {/* Page Content */}
-                <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+                {/* Page Content with Mesh Background */}
+                <main className="flex-1 p-4 sm:p-6 lg:p-4 overflow-y-auto mesh-bg relative">
                     <Outlet />
                 </main>
             </div>
