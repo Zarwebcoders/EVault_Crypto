@@ -9,6 +9,13 @@ const transactionRoutes = require('./routes/transaction.js');
 // Load env vars
 dotenv.config();
 
+// CORS
+const corsOptions = {
+    origin: ['http://localhost:5173', 'http://localhost:5174', 'https://prescripto-frontend-xi-three.vercel.app', 'https://prescripto-admin-opal.vercel.app', 'http://192.168.1.8:5174'], // Allow both 5173 and 5174
+    methods: 'GET, POST, PUT, DELETE, OPTIONS, HEAD, PATCH, PROPFIND',
+    credentials: true
+}
+
 // Connect to database
 connectDB();
 
@@ -16,7 +23,7 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 
 // Basic Route
 app.get('/', (req, res) => {
