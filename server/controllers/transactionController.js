@@ -1,10 +1,10 @@
-import Transaction from '../models/Transaction.js';
-import User from '../models/User.js';
+const Transaction = require('../models/Transaction.js');
+const User = require('../models/User.js');
 
 // @desc    Request a withdrawal
 // @route   POST /api/transactions/withdraw
 // @access  Private
-export const requestWithdrawal = async (req, res) => {
+const requestWithdrawal = async (req, res) => {
     const { amount, method, address } = req.body;
 
     try {
@@ -38,7 +38,7 @@ export const requestWithdrawal = async (req, res) => {
 // @desc    Get my withdrawals
 // @route   GET /api/transactions
 // @access  Private
-export const getMyTransactions = async (req, res) => {
+const getMyTransactions = async (req, res) => {
     try {
         const transactions = await Transaction.find({ user: req.user._id }).sort({ date: -1 });
         res.json(transactions);
@@ -50,7 +50,7 @@ export const getMyTransactions = async (req, res) => {
 // @desc    Get all withdrawals (Admin)
 // @route   GET /api/transactions/admin
 // @access  Private/Admin
-export const getAdminTransactions = async (req, res) => {
+const getAdminTransactions = async (req, res) => {
     try {
         const transactions = await Transaction.find({}).populate('user', 'id name email');
         res.json(transactions);
@@ -62,7 +62,7 @@ export const getAdminTransactions = async (req, res) => {
 // @desc    Update withdrawal status (Approve/Reject)
 // @route   PUT /api/transactions/:id
 // @access  Private/Admin
-export const updateTransaction = async (req, res) => {
+const updateTransaction = async (req, res) => {
     const { status, txId } = req.body;
 
     try {
@@ -90,4 +90,11 @@ export const updateTransaction = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
+};
+
+module.exports = {
+    requestWithdrawal,
+    getMyTransactions,
+    getAdminTransactions,
+    updateTransaction
 };

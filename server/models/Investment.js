@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const investmentSchema = new mongoose.Schema({
     user: {
@@ -33,4 +33,4 @@ const investmentSchema = new mongoose.Schema({
     },
 });
 
-export default mongoose.model('Investment', investmentSchema);
+module.exports = mongoose.model('Investment', investmentSchema);
