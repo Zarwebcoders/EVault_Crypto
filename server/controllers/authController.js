@@ -1,6 +1,6 @@
-import User from '../models/User.js';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
+const User = require('../models/User.js');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 // Generate JWT
 const generateToken = (id) => {
@@ -12,7 +12,7 @@ const generateToken = (id) => {
 // @desc    Register new user
 // @route   POST /api/auth/register
 // @access  Public
-export const registerUser = async (req, res) => {
+const registerUser = async (req, res) => {
     const { name, email, password } = req.body;
 
     try {
@@ -50,7 +50,7 @@ export const registerUser = async (req, res) => {
 // @desc    Authenticate a user
 // @route   POST /api/auth/login
 // @access  Public
-export const loginUser = async (req, res) => {
+const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     try {
@@ -78,7 +78,7 @@ export const loginUser = async (req, res) => {
 // @desc    Get user profile
 // @route   GET /api/auth/profile
 // @access  Private
-export const getUserProfile = async (req, res) => {
+const getUserProfile = async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select('-password');
         if (user) {
@@ -94,7 +94,7 @@ export const getUserProfile = async (req, res) => {
 // @desc    Get all users (Admin)
 // @route   GET /api/auth/users
 // @access  Private/Admin
-export const getUsers = async (req, res) => {
+const getUsers = async (req, res) => {
     try {
         const users = await User.find({});
         res.json(users);
@@ -102,10 +102,11 @@ export const getUsers = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
 // @desc    Add test funds (Faucet)
 // @route   PUT /api/auth/profile/funds
 // @access  Private
-export const addTestFunds = async (req, res) => {
+const addTestFunds = async (req, res) => {
     try {
         const user = await User.findById(req.user.id);
         if (user) {
@@ -127,4 +128,12 @@ export const addTestFunds = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
+};
+
+module.exports = {
+    registerUser,
+    loginUser,
+    getUserProfile,
+    getUsers,
+    addTestFunds
 };

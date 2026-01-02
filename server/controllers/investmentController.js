@@ -1,10 +1,10 @@
-import Investment from '../models/Investment.js';
-import User from '../models/User.js';
+const Investment = require('../models/Investment.js');
+const User = require('../models/User.js');
 
 // @desc    Create new investment request
 // @route   POST /api/investments
 // @access  Private
-export const createInvestment = async (req, res) => {
+const createInvestment = async (req, res) => {
     const { amount, method, walletAddress } = req.body;
 
     try {
@@ -26,7 +26,7 @@ export const createInvestment = async (req, res) => {
 // @desc    Get logged in user investments
 // @route   GET /api/investments
 // @access  Private
-export const getMyInvestments = async (req, res) => {
+const getMyInvestments = async (req, res) => {
     try {
         const investments = await Investment.find({ user: req.user._id });
         res.json(investments);
@@ -38,7 +38,7 @@ export const getMyInvestments = async (req, res) => {
 // @desc    Get all investment requests (Admin)
 // @route   GET /api/investments/admin
 // @access  Private/Admin
-export const getAdminInvestments = async (req, res) => {
+const getAdminInvestments = async (req, res) => {
     try {
         const investments = await Investment.find({}).populate('user', 'id name email');
         res.json(investments);
@@ -50,7 +50,7 @@ export const getAdminInvestments = async (req, res) => {
 // @desc    Update investment (Approve/Reject/Edit Wallet)
 // @route   PUT /api/investments/:id
 // @access  Private/Admin
-export const updateInvestment = async (req, res) => {
+const updateInvestment = async (req, res) => {
     const { status, walletAddress } = req.body;
 
     try {
@@ -68,4 +68,11 @@ export const updateInvestment = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
+};
+
+module.exports = {
+    createInvestment,
+    getMyInvestments,
+    getAdminInvestments,
+    updateInvestment
 };

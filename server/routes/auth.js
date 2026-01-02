@@ -1,6 +1,6 @@
-import express from 'express';
-import { registerUser, loginUser, getUserProfile, getUsers, addTestFunds } from '../controllers/authController.js';
-import { protect } from '../middleware/authMiddleware.js';
+const express = require('express');
+const { registerUser, loginUser, getUserProfile, getUsers, addTestFunds } = require('../controllers/authController.js');
+const { protect } = require('../middleware/authMiddleware.js');
 
 const router = express.Router();
 
@@ -10,4 +10,4 @@ router.get('/profile', protect, getUserProfile);
 router.put('/profile/funds', protect, addTestFunds);
 router.get('/users', protect, getUsers); // Should serve as /api/auth/users
 
-export default router;
+module.exports = router;

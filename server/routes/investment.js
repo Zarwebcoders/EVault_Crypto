@@ -1,11 +1,11 @@
-import express from 'express';
-import {
+const express = require('express');
+const {
     createInvestment,
     getMyInvestments,
     getAdminInvestments,
     updateInvestment,
-} from '../controllers/investmentController.js';
-import { protect } from '../middleware/authMiddleware.js';
+} = require('../controllers/investmentController.js');
+const { protect } = require('../middleware/authMiddleware.js');
 
 const router = express.Router();
 
@@ -19,4 +19,4 @@ router.route('/admin')
 router.route('/:id')
     .put(protect, updateInvestment);
 
-export default router;
+module.exports = router;
