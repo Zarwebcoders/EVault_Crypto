@@ -37,6 +37,7 @@ import UserLayout from './pages/user/UserLayout';
 import UserDashboard from './pages/user/Dashboard';
 import Investments from './pages/user/Investments';
 import Withdrawals from './pages/user/Withdrawals';
+import Transactions from './pages/user/Transactions';
 import Profile from './pages/user/Profile';
 import AdminLayout from './pages/admin/AdminLayout';
 
@@ -72,6 +73,7 @@ function App() {
               <Route index element={<UserDashboard />} />
               <Route path="invest" element={<Investments />} />
               <Route path="withdraw" element={<Withdrawals />} />
+              <Route path="transactions" element={<Transactions />} />
               <Route path="profile" element={<Profile />} />
             </Route>
 

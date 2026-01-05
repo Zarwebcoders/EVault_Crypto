@@ -9,7 +9,8 @@ import {
     XMarkIcon,
     BellIcon,
     WalletIcon,
-    ArrowRightOnRectangleIcon
+    ArrowRightOnRectangleIcon,
+    ClockIcon
 } from '@heroicons/react/24/outline';
 import { useCrypto } from '../../context/CryptoContext';
 import eVault_Logo from '../../../public/eVaultLogoWithBG2.png';
@@ -24,6 +25,7 @@ const UserLayout = () => {
         { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
         { name: 'New Investment', href: '/dashboard/invest', icon: CurrencyDollarIcon },
         { name: 'Withdrawals', href: '/dashboard/withdraw', icon: ArrowDownTrayIcon },
+        { name: 'Transactions', href: '/dashboard/transactions', icon: ClockIcon },
         { name: 'Profile', href: '/dashboard/profile', icon: UserCircleIcon },
     ];
 
@@ -68,8 +70,8 @@ const UserLayout = () => {
                                 to={item.href}
                                 onClick={() => setSidebarOpen(false)}
                                 className={`group flex items-center px-4 py-3.5 text-sm font-medium rounded-xl transition-all duration-200 relative overflow-hidden ${active
-                                        ? 'bg-gray-900 text-white shadow-lg shadow-gray-200'
-                                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                                    ? 'bg-gray-900 text-white shadow-lg shadow-gray-200'
+                                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                                     }`}
                             >
                                 {/* Active Indicator Line */}
@@ -134,8 +136,8 @@ const UserLayout = () => {
                     <div className="flex items-center gap-3 sm:gap-6">
                         {/* Wallet Badge */}
                         <div className={`hidden sm:flex items-center px-4 py-2 rounded-full border text-sm font-semibold transition-colors ${user?.walletConnected
-                                ? 'bg-[#D4AF37]/5 border-[#D4AF37]/20 text-[#D4AF37]'
-                                : 'bg-gray-100 border-gray-200 text-gray-500'
+                            ? 'bg-[#D4AF37]/5 border-[#D4AF37]/20 text-[#D4AF37]'
+                            : 'bg-gray-100 border-gray-200 text-gray-500'
                             }`}>
                             <WalletIcon className="w-4 h-4 mr-2" />
                             {user?.walletConnected ? 'Wallet Connected' : 'No Wallet'}

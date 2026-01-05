@@ -51,7 +51,7 @@ const Exchanges = () => {
     );
 
     return (
-        <section className="py-10 bg-gradient-to-b from-[#FAFAF9] to-white overflow-hidden relative">
+        <section id="exchanges" className="py-10 bg-gradient-to-b from-[#FAFAF9] to-white overflow-hidden relative">
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-[0.8]">
                 <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-[#F9E79F] blur-3xl"></div>

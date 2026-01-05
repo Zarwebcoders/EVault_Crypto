@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
   /* Enhanced Metallic Gold Palette */
   --color-gold: #D4AF37;

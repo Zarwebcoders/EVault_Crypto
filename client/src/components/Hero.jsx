@@ -207,16 +207,16 @@ const Hero = () => {
                             <motion.div
                                 animate={{ y: [0, -12, 0] }}
                                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                                className="absolute top-12 right-0 md:right-10 w-64 h-[400px] bg-white rounded-3xl shadow-2xl border border-gray-600 p-2 transform -rotate-y-12 rotate-z-3 translate-z-[-100px] z-0 opacity-80 hidden md:block"
+                                className="absolute top-12 right-0 md:right-10 w-64 h-[400px] text-black bg-white rounded-3xl shadow-2xl border border-gray-600 p-2 transform -rotate-y-12 rotate-z-3 translate-z-[-100px] z-0 opacity-80 hidden md:block"
                             >
                                 <div className="bg-gradient-gold h-24 rounded-2xl mb-4 p-4 relative overflow-hidden">
-                                    <div className="text-white font-bold text-lg mt-8">Transaction History</div>
+                                    <div className="text-black font-bold text-lg mt-8">Transaction History</div>
                                 </div>
                                 <div className="space-y-2">
                                     {[1, 2, 3].map(i => (
                                         <div key={i} className="flex justify-between items-center p-2 border-b border-gray-50">
-                                            <div className="w-8 h-8 rounded-full bg-gray-100" />
-                                            <div className="w-16 h-2 bg-gray-100 rounded-full" />
+                                            <div className="w-8 h-8 rounded-full bg-gray-400" />
+                                            <div className="w-16 h-2 bg-gray-400 rounded-full" />
                                         </div>
                                     ))}
                                 </div>

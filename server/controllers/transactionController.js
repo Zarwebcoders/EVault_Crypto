@@ -5,7 +5,7 @@ const User = require('../models/User.js');
 // @route   POST /api/transactions/withdraw
 // @access  Private
 const requestWithdrawal = async (req, res) => {
-    const { amount, method, address } = req.body;
+    const { amount, method, address, walletAddress, isSos } = req.body;
 
     try {
         const user = await User.findById(req.user._id);
@@ -19,7 +19,8 @@ const requestWithdrawal = async (req, res) => {
             type: 'Withdrawal',
             amount,
             method,
-            address,
+            address: address || walletAddress,
+            isSos: isSos || false,
             status: 'Pending',
         });
 
@@ -52,7 +53,40 @@ const getMyTransactions = async (req, res) => {
 // @access  Private/Admin
 const getAdminTransactions = async (req, res) => {
     try {
-        const transactions = await Transaction.find({}).populate('user', 'id name email');
+        const { search } = req.query;
+        let query = {};
+
+        if (search && search.trim()) {
+            const searchRegex = new RegExp(search.trim(), 'i');
+
+            // Find users matching name or email first
+            const users = await User.find({
+                $or: [
+                    { name: searchRegex },
+                    { email: searchRegex }
+                ]
+            }).select('_id');
+
+            const userIds = users.map(u => u._id);
+
+            // Build the transaction query
+            const orConditions = [
+                { address: searchRegex },
+                { txId: searchRegex },
+                { user: { $in: userIds } }
+            ];
+
+            // If search looks like an ObjectId, add it to conditions
+            if (search.trim().match(/^[0-9a-fA-F]{24}$/)) {
+                orConditions.push({ _id: search.trim() });
+            }
+
+            query = { $or: orConditions };
+        }
+
+        const transactions = await Transaction.find(query)
+            .populate('user', 'id name email')
+            .sort({ date: -1 }); // Sort by newest first
         res.json(transactions);
     } catch (error) {
         res.status(500).json({ message: error.message });

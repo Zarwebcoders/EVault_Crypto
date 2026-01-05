@@ -45,7 +45,7 @@ const FAQ = () => {
     ];
 
     return (
-        <section className="py-24 relative overflow-hidden bg-gradient-to-b from-white via-[#FAFAF9] to-white">
+        <section id="faq" className="py-24 relative overflow-hidden bg-gradient-to-b from-white via-[#FAFAF9] to-white">
             <div className="container mx-auto px-6 relative z-10">
                 {/* Header */}
                 <div className="text-center mb-16 max-w-3xl mx-auto">
@@ -93,8 +93,8 @@ const FAQ = () => {
                         >
                             <div
                                 className={`relative rounded-2xl overflow-hidden transition-all duration-300 ${openIndex === index
-                                        ? 'bg-gradient-to-r from-[#D4AF37]/10 to-[#FFD700]/5 shadow-2xl shadow-[#D4AF37]/20'
-                                        : 'bg-white shadow-lg hover:shadow-xl'
+                                    ? 'bg-gradient-to-r from-[#D4AF37]/10 to-[#FFD700]/5 shadow-2xl shadow-[#D4AF37]/20'
+                                    : 'bg-white shadow-lg hover:shadow-xl'
                                     } border-2 ${openIndex === index ? 'border-[#D4AF37]/40' : 'border-gray-200 hover:border-[#D4AF37]/20'
                                     }`}
                             >

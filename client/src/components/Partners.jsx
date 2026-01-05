@@ -16,7 +16,7 @@ const Partners = () => {
     ];
 
     return (
-        <section className="bg-white border-y border-gold/20 flex relative z-20 overflow-hidden h-28 shadow-lg">
+        <section id="partners" className="bg-white border-y border-gold/20 flex relative z-20 overflow-hidden h-28 shadow-lg">
             {/* Fixed Title Section - Golden Theme */}
             <div className="bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0F172A] text-white p-6 flex items-center z-30 min-w-[320px] shadow-2xl shadow-gold/20 relative overflow-hidden">
 

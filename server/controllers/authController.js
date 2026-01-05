@@ -104,7 +104,20 @@ const getUserProfile = async (req, res) => {
 // @access  Private/Admin
 const getUsers = async (req, res) => {
     try {
-        const users = await User.find({});
+        const { search } = req.query;
+        let query = {};
+
+        if (search && search.trim()) {
+            const searchRegex = new RegExp(search.trim(), 'i');
+            query = {
+                $or: [
+                    { name: searchRegex },
+                    { email: searchRegex }
+                ]
+            };
+        }
+
+        const users = await User.find(query);
 
         // Aggregate investments for each user
         const usersWithInvestments = await Promise.all(users.map(async (user) => {

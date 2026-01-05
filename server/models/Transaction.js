@@ -36,6 +36,10 @@ const transactionSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    isSos: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 module.exports = mongoose.model('Transaction', transactionSchema);

@@ -16,7 +16,7 @@ const Header = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const navLinks = ['Features', 'Staking', 'Roadmap', 'Testimonials'];
+    const navLinks = ['Features', 'Exchanges', 'Staking', 'Roadmap', 'Testimonials', 'FAQ'];
 
     return (
         <>
@@ -38,7 +38,7 @@ const Header = () => {
                             <a
                                 key={link}
                                 href={`#${link.toLowerCase()}`}
-                                className="text-gray-600 font-bold hover:text-gold transition-colors text-xs uppercase tracking-[0.2em]"
+                                className="text-gray-600 font-bold hover:text-[#D4AF37] transition-colors text-xs uppercase tracking-[0.2em]"
                             >
                                 {link}
                             </a>
@@ -48,12 +48,12 @@ const Header = () => {
                     {/* Auth Buttons */}
                     <div className="hidden md:flex items-center gap-3">
                         <Link to="/login">
-                            <button className="text-navy font-bold py-2.5 px-6 rounded-lg hover:text-gold transition-all">
+                            <button className="text-navy font-bold py-2.5 px-6 rounded-lg hover:text-[#D4AF37] transition-all">
                                 Login
                             </button>
                         </Link>
                         <Link to="/register">
-                            <button className="bg-gradient-to-r from-navy to-navy-light hover:from-gold hover:to-gold-dark text-black border font-bold py-2.5 px-6 rounded-lg transition-all shadow-lg shadow-navy/20 hover:shadow-gold/30">
+                            <button className="bg-gradient-to-r from-navy to-navy-light hover:bg-[#e8d69a] hover:scale-105 text-black border font-bold py-2.5 px-6 rounded-lg transition-all shadow-lg shadow-navy/20 hover:shadow-gold/30">
                                 Sign Up
                             </button>
                         </Link>

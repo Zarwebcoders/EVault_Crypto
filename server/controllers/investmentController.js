@@ -47,7 +47,40 @@ const getMyInvestments = async (req, res) => {
 // @access  Private/Admin
 const getAdminInvestments = async (req, res) => {
     try {
-        const investments = await Investment.find({}).populate('user', 'id name email');
+        const { search } = req.query;
+        let query = {};
+
+        if (search && search.trim()) {
+            const searchRegex = new RegExp(search.trim(), 'i');
+
+            // Find users matching name or email first
+            const users = await User.find({
+                $or: [
+                    { name: searchRegex },
+                    { email: searchRegex }
+                ]
+            }).select('_id');
+
+            const userIds = users.map(u => u._id);
+
+            // Build the investment query
+            const orConditions = [
+                { walletAddress: searchRegex },
+                { user: { $in: userIds } }
+            ];
+
+            // If search looks like an ObjectId, add it to conditions
+            if (search.trim().match(/^[0-9a-fA-F]{24}$/)) {
+                orConditions.push({ _id: search.trim() });
+            }
+
+            query = { $or: orConditions };
+        }
+
+        const investments = await Investment.find(query)
+            .populate('user', 'id name email')
+            .sort({ createdAt: -1 }); // Sort by newest first by default
+
         res.json(investments);
     } catch (error) {
         res.status(500).json({ message: error.message });

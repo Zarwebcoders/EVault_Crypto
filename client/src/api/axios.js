@@ -12,7 +12,7 @@ api.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('evault_token');
         if (token) {
-            console.log("Attaching token:", token.substring(0, 10) + "...");
+            // console.log("Attaching token:", token.substring(0, 10) + "...");
             config.headers.Authorization = `Bearer ${token}`;
         } else {
             console.warn("No token found in localStorage");
