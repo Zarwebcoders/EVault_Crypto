@@ -55,7 +55,7 @@ const Features = () => {
                         transition={{ delay: 0.1 }}
                         className="text-3xl md:text-5xl font-black text-[#0F172A] mb-6 tracking-tight"
                     >
-                        Why Smart Investors Choose <span className="text-gradient-gold">EVault</span>
+                        Why Smart Investors Choose <span className="text-gradient-gold">eVault Crypto Bank</span>
                     </motion.h2>
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}

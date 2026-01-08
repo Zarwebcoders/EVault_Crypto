@@ -16,7 +16,7 @@ const testimonials = [
     {
         name: "Sarah Chen",
         role: "DeFi Analyst",
-        content: "Security was my main concern, but EVault's transparent protocols and insurance coverage gave me peace of mind.",
+        content: "Security was my main concern, but eVault Crypto Bank's transparent protocols and insurance coverage gave me peace of mind.",
         avatarColor: "from-purple-500 to-pink-500",
         rating: 5,
         joined: "Mar 2023",
@@ -99,7 +99,7 @@ const Testimonials = () => {
                         transition={{ delay: 0.1 }}
                         className="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed"
                     >
-                        Join thousands of satisfied users who are growing their wealth with EVault's premium staking platform.
+                        Join thousands of satisfied users who are growing their wealth with eVault Crypto Bank's premium staking platform.
                     </motion.p>
                 </div>
 

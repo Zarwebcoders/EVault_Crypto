@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Wallet, Coins, TrendingUp } from 'lucide-react';
+import { ArrowRight, Wallet, Coins, TrendingUp, Unlock } from 'lucide-react';
 
 const steps = [
     {
@@ -20,12 +20,18 @@ const steps = [
         title: "Watch Earnings Grow!",
         description: "Monitor your yield in real-time and withdraw rewards daily.",
         icon: <TrendingUp size={20} />
+    },
+    {
+        number: "04",
+        title: "Withdraw Anytime",
+        description: "Withdraw your assets anytime without any lock-in period.",
+        icon: <Unlock size={20} />
     }
 ];
 
 const StakingInfo = () => {
     return (
-        <section id="staking" className="py-24 bg-[#FAFAF9] relative overflow-hidden">
+        <section id="how-it-works" className="py-24 bg-[#FAFAF9] relative overflow-hidden">
             <div className="container mx-auto px-6">
                 <div className="flex flex-col lg:flex-row items-center gap-20">
 

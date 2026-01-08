@@ -4,57 +4,57 @@ import { Wallet, Zap, Link, Shield, ChevronRight, Sparkles, Lock, Globe, ArrowRi
 
 const ConnectWallet = () => {
     const wallets = [
-        { 
-            name: "Coinbase", 
+        {
+            name: "Coinbase",
             color: "text-blue-600",
             bgColor: "bg-gradient-to-br from-blue-500 to-blue-600",
             icon: <Wallet size={20} />,
             status: "popular"
         },
-        { 
-            name: "METAMASK", 
+        {
+            name: "METAMASK",
             color: "text-orange-500",
             bgColor: "bg-gradient-to-br from-orange-500 to-amber-600",
             icon: <Shield size={20} />,
             status: "recommended"
         },
-        { 
-            name: "TRUST", 
+        {
+            name: "TRUST",
             color: "text-blue-500",
             bgColor: "bg-gradient-to-br from-blue-400 to-blue-500",
             icon: <Lock size={20} />,
             status: "secure"
         },
-        { 
-            name: "WalletConnect", 
+        {
+            name: "WalletConnect",
             color: "text-blue-400",
             bgColor: "bg-gradient-to-br from-blue-300 to-blue-400",
             icon: <Link size={20} />,
             status: "versatile"
         },
-        { 
-            name: "Sender", 
+        {
+            name: "Sender",
             color: "text-blue-600",
             bgColor: "bg-gradient-to-br from-blue-600 to-indigo-600",
             icon: <Zap size={20} />,
             status: "fast"
         },
-        { 
-            name: "Ronin", 
+        {
+            name: "Ronin",
             color: "text-gray-800",
             bgColor: "bg-gradient-to-br from-gray-700 to-gray-900",
             icon: <Globe size={20} />,
             status: "gaming"
         },
-        { 
-            name: "Phantom", 
+        {
+            name: "Phantom",
             color: "text-purple-500",
             bgColor: "bg-gradient-to-br from-purple-500 to-pink-500",
             icon: <Sparkles size={20} />,
             status: "sleek"
         },
-        { 
-            name: "EXODUS", 
+        {
+            name: "EXODUS",
             color: "text-gray-700",
             bgColor: "bg-gradient-to-br from-gray-600 to-gray-800",
             icon: <Wallet size={20} />,
@@ -63,7 +63,7 @@ const ConnectWallet = () => {
     ];
 
     const getStatusColor = (status) => {
-        switch(status) {
+        switch (status) {
             case 'popular': return 'bg-blue-100 text-blue-600 border-blue-200';
             case 'recommended': return 'bg-orange-100 text-orange-600 border-orange-200';
             case 'secure': return 'bg-green-100 text-green-600 border-green-200';
@@ -90,7 +90,7 @@ const ConnectWallet = () => {
                         <Sparkles size={12} />
                         Seamless Integration
                     </motion.div>
-                    
+
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -101,7 +101,7 @@ const ConnectWallet = () => {
                         <br />
                         Start Growing Your Wealth
                     </motion.h2>
-                    
+
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -122,14 +122,14 @@ const ConnectWallet = () => {
                             initial={{ opacity: 0, y: 30, scale: 0.9 }}
                             whileInView={{ opacity: 1, y: 0, scale: 1 }}
                             viewport={{ once: true }}
-                            transition={{ 
-                                duration: 0.5, 
+                            transition={{
+                                duration: 0.5,
                                 delay: index * 0.05,
                                 type: "spring",
                                 stiffness: 100
                             }}
-                            whileHover={{ 
-                                y: -8, 
+                            whileHover={{
+                                y: -8,
                                 scale: 1.02,
                                 transition: { duration: 0.2 }
                             }}
@@ -137,7 +137,7 @@ const ConnectWallet = () => {
                         >
                             {/* Card Container */}
                             <div className="relative bg-white rounded-2xl p-6 shadow-xl border-2 border-gray-200 hover:border-[#D4AF37] hover:shadow-2xl hover:shadow-[#D4AF37]/20 transition-all duration-300 overflow-hidden h-full flex flex-col items-center justify-center">
-                                
+
                                 {/* Wallet Icon */}
                                 <div className={`relative w-16 h-16 rounded-xl ${wallet.bgColor} flex items-center justify-center text-white mb-4 shadow-lg group-hover:scale-110 group-hover:shadow-xl transition-all duration-300`}>
                                     {wallet.icon}
@@ -145,17 +145,17 @@ const ConnectWallet = () => {
                                         <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                                     </div>
                                 </div>
-                                
+
                                 {/* Wallet Name */}
                                 <span className={`text-xl font-black ${wallet.color} mb-2 group-hover:scale-105 transition-transform duration-300`}>
                                     {wallet.name}
                                 </span>
-                                
+
                                 {/* Status Badge */}
                                 <div className={`px-3 py-1 rounded-full border text-xs font-bold uppercase ${getStatusColor(wallet.status)} mt-2 group-hover:scale-105 transition-transform duration-300`}>
                                     {wallet.status}
                                 </div>
-                                
+
                                 {/* Corner Accents */}
                                 <div className="absolute top-3 left-3 w-2 h-2 rounded-full bg-gray-300 group-hover:bg-[#D4AF37] transition-colors duration-300"></div>
                                 <div className="absolute bottom-3 right-3 w-2 h-2 rounded-full bg-gray-300 group-hover:bg-[#D4AF37] transition-colors duration-300"></div>
@@ -180,15 +180,15 @@ const ConnectWallet = () => {
                                 </div>
                                 <h3 className="text-xl font-black text-[#0F172A]">Ready to Connect?</h3>
                             </div>
-                            <p className="text-gray-500 text-sm">Select your wallet above to start your journey with EVault.</p>
+                            <p className="text-gray-500 text-sm">Select your wallet above to start your journey with eVault Crypto Bank.</p>
                         </div>
-                        
+
                         <button className="bg-gradient-to-r from-[#0F172A] to-[#1E293B] text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-2 group">
                             <span>Connect Wallet</span>
                             <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
                         </button>
                     </div>
-                    
+
                     {/* Security Badges */}
                     <div className="flex flex-wrap justify-center gap-6 mt-8">
                         <div className="flex items-center gap-2 text-gray-500 text-sm">

@@ -14,13 +14,17 @@ import Testimonials from './components/Testimonials';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import AuthPage from './components/AuthPage';
+import TickerTape from './components/TickerTape';
+import AboutUs from './components/AboutUs';
 
 // Landing Page Component
 const LandingPage = () => (
   <>
     <Hero />
-    <Partners />
+    <TickerTape />
+    <AboutUs />
     <Features />
+    <Partners />
     <Exchanges />
     <StakingInfo />
     <SecurityFeatures />

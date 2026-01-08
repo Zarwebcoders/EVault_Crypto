@@ -10,6 +10,8 @@ const AuthPage = () => {
     const navigate = useNavigate();
     const [isSignUp, setIsSignUp] = useState(false);
 
+    const [showForgotModal, setShowForgotModal] = useState(false);
+
     useEffect(() => {
         setIsSignUp(location.pathname === '/register');
     }, [location.pathname]);
@@ -26,6 +28,11 @@ const AuthPage = () => {
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute inset-0 opacity-[0.4]" style={{ backgroundImage: 'radial-gradient(#D4AF37 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
             </div>
+
+            {/* Forgot Password Modal */}
+            {showForgotModal && (
+                <ForgotPasswordModal onClose={() => setShowForgotModal(false)} />
+            )}
 
             <div className={`relative bg-white rounded-[2rem] shadow-2xl w-full max-w-[1000px] overflow-hidden flex flex-col md:flex-row min-h-[600px] md:min-h-[600px]`}>
 
@@ -56,7 +63,7 @@ const AuthPage = () => {
                     md:absolute md:top-0 md:h-full md:transition-all md:duration-700 md:ease-in-out
                     ${isSignUp ? 'md:left-0' : 'md:left-0 md:opacity-100'}
                 `}>
-                    <SignInForm toggleMode={toggleMode} />
+                    <SignInForm toggleMode={toggleMode} onForgotClick={() => setShowForgotModal(true)} />
                 </div>
 
                 {/* Overlay Container (Desktop Only) */}
@@ -113,7 +120,7 @@ const SocialIcon = ({ icon }) => (
     </a>
 );
 
-const SignInForm = ({ toggleMode }) => {
+const SignInForm = ({ toggleMode, onForgotClick }) => {
     const { login } = useCrypto();
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
@@ -182,7 +189,7 @@ const SignInForm = ({ toggleMode }) => {
             </div>
 
             <div className="flex items-center justify-between text-sm mt-2 font-medium">
-                <a href="#" className="text-[#0F172A] hover:text-[#D4AF37] transition-colors">Forgot Password?</a>
+                <button type="button" onClick={onForgotClick} className="text-[#0F172A] hover:text-[#D4AF37] transition-colors">Forgot Password?</button>
             </div>
 
             <button type="submit" disabled={loading} className="w-full bg-[#0F172A] text-white font-bold py-4 rounded-xl hover:bg-[#D4AF37] hover:text-[#0F172A] transition-all duration-300 mt-6 shadow-xl shadow-[#0F172A]/20 transform hover:-translate-y-0.5 disabled:opacity-50">
@@ -290,6 +297,95 @@ const SignUpForm = ({ toggleMode }) => {
                 </p>
             </div>
         </form>
+    );
+};
+
+const ForgotPasswordModal = ({ onClose }) => {
+    const { forgotPassword } = useCrypto();
+    const [email, setEmail] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState('');
+    const [error, setError] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setMessage('');
+        setError('');
+
+        const res = await forgotPassword(email, newPassword);
+
+        if (res.success) {
+            setMessage(res.message);
+            setTimeout(() => {
+                onClose();
+            }, 2000);
+        } else {
+            setError(res.message);
+        }
+        setLoading(false);
+    };
+
+    return (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+            <div className="bg-white rounded-2xl p-8 w-full max-w-md relative animate-fade-in shadow-2xl">
+                <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                    ✕
+                </button>
+                <h3 className="text-2xl font-bold text-[#0F172A] mb-2">Reset Password</h3>
+                <p className="text-gray-500 mb-6">Enter your email and a new password.</p>
+
+                {message && (
+                    <div className="mb-4 p-3 bg-green-100 text-green-700 rounded-lg flex items-center gap-2">
+                        <CheckCircle2 size={18} /> {message}
+                    </div>
+                )}
+
+                {error && (
+                    <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
+                        {error}
+                    </div>
+                )}
+
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="relative group">
+                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#D4AF37] transition-colors">
+                            <Mail size={20} />
+                        </div>
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="Email Address"
+                            className="w-full pl-10 pr-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 outline-none transition-all"
+                            required
+                        />
+                    </div>
+                    <div className="relative group">
+                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#D4AF37] transition-colors">
+                            <Lock size={20} />
+                        </div>
+                        <input
+                            type="password"
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            placeholder="New Password"
+                            className="w-full pl-10 pr-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:border-[#D4AF37] focus:ring-4 focus:ring-[#D4AF37]/10 outline-none transition-all"
+                            required
+                        />
+                    </div>
+
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className="w-full bg-[#0F172A] text-white font-bold py-3 rounded-xl hover:bg-[#D4AF37] hover:text-[#0F172A] transition-all disabled:opacity-50"
+                    >
+                        {loading ? 'Updating...' : 'Update Password'}
+                    </button>
+                </form>
+            </div>
+        </div>
     );
 };
 

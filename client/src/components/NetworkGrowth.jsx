@@ -5,7 +5,7 @@ import { TrendingUp, ArrowUpRight } from 'lucide-react';
 const NetworkGrowth = () => {
     return (
         <section className="relative py-14 overflow-hidden bg-gradient-to-br from-white via-[#FFFBF0] to-[#FFF8E1]">
-            
+
 
             {/* Animated Golden Orbs */}
             <motion.div
@@ -42,9 +42,9 @@ const NetworkGrowth = () => {
                             Join The Movement
                         </div>
 
-                        <h2 className="text-5xl md:text-6xl font-black mb-8 leading-tight">
-                            Everybody's using<br />
-                            <span className="text-gradient-gold">Grow Your Network.</span><br />
+                        <h2 className="text-4xl md:text-5xl font-black mb-8 leading-tight">
+                            Major In Community Using<br />
+                            <span className="text-gradient-gold">eVAULT Crypto Bank.</span><br />
                             You can, too.
                         </h2>
 
@@ -58,7 +58,7 @@ const NetworkGrowth = () => {
                         {/* Stats */}
                         <div className="grid grid-cols-2 gap-6 mt-12 pt-8 border-t border-[#D4AF37]/20">
                             <div>
-                                <div className="text-4xl font-black mb-2 text-[#D4AF37]">250K+</div>
+                                <div className="text-4xl font-black mb-2 text-[#D4AF37]">45K+</div>
                                 <div className="text-gray-600 text-sm">Active Users</div>
                             </div>
                             <div>
@@ -88,9 +88,9 @@ const NetworkGrowth = () => {
                             {/* Phone Header */}
                             <div className="bg-gradient-to-br from-[#0F172A] to-[#1E293B] rounded-2xl p-4 mb-4 text-white relative overflow-hidden">
                                 <div className="absolute top-0 right-0 w-16 h-16 bg-[#D4AF37]/20 rounded-full blur-xl" />
-                                <div className="relative">
-                                    <div className="text-xs opacity-80 mb-1">EVault</div>
-                                    <div className="text-lg font-bold">Transaction History</div>
+                                <div className="p-3 bg-gray-50 rounded-xl">
+                                    <div className="text-xs opacity-80 mb-1">eVault Crypto Bank</div>
+                                    <div className="text-sm font-bold text-navy">Global Network</div>
                                 </div>
                             </div>
 
@@ -135,7 +135,7 @@ const NetworkGrowth = () => {
                             <div className="bg-gradient-to-br from-[#D4AF37] to-[#B8860B] rounded-2xl p-5 mb-5 text-white relative overflow-hidden">
                                 <div className="absolute top-0 right-0 w-24 h-24 bg-white/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
                                 <div className="relative">
-                                    <div className="text-xs opacity-90 mb-1">EVault</div>
+                                    <div className="text-xs opacity-90 mb-1">eVault Crypto Bank</div>
                                     <div className="text-xl font-bold mb-4">Income Dashboard</div>
                                     <div className="text-xs opacity-90 mb-1">Total Balance</div>
                                     <div className="text-3xl font-black">$3,221.00</div>
@@ -183,9 +183,9 @@ const NetworkGrowth = () => {
                             {/* Phone Header */}
                             <div className="bg-gradient-to-br from-[#0F172A] to-[#1E293B] rounded-2xl p-4 mb-4 text-white relative overflow-hidden">
                                 <div className="absolute top-0 right-0 w-16 h-16 bg-[#D4AF37]/20 rounded-full blur-xl" />
-                                <div className="relative">
-                                    <div className="text-xs opacity-80 mb-1">EVault</div>
-                                    <div className="text-lg font-bold">Recent Activity</div>
+                                <div className="p-3 bg-gray-50 rounded-xl">
+                                    <div className="text-xs opacity-80 mb-1">eVault Crypto Bank</div>
+                                    <div className="text-sm font-bold text-navy">Active Stakers</div>
                                 </div>
                             </div>
 

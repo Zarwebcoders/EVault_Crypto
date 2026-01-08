@@ -16,7 +16,7 @@ const Header = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const navLinks = ['Features', 'Exchanges', 'Staking', 'Roadmap', 'Testimonials', 'FAQ'];
+    const navLinks = ['Features', 'How it works', 'Roadmap', 'Testimonials', 'FAQ'];
 
     return (
         <>
@@ -37,7 +37,7 @@ const Header = () => {
                         {navLinks.map((link) => (
                             <a
                                 key={link}
-                                href={`#${link.toLowerCase()}`}
+                                href={`#${link.toLowerCase().replace(/\s+/g, '-')}`}
                                 className="text-gray-600 font-bold hover:text-[#D4AF37] transition-colors text-xs uppercase tracking-[0.2em]"
                             >
                                 {link}
@@ -82,7 +82,7 @@ const Header = () => {
                             {navLinks.map((link) => (
                                 <a
                                     key={link}
-                                    href={`#${link.toLowerCase()}`}
+                                    href={`#${link.toLowerCase().replace(/\s+/g, '-')}`}
                                     className="text-gray-900 font-bold text-xl hover:text-gold tracking-wide"
                                     onClick={() => setIsMobileMenuOpen(false)}
                                 >

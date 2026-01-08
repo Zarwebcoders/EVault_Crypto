@@ -7,8 +7,8 @@ const FAQ = () => {
 
     const faqs = [
         {
-            question: "What is Grow Your Network?",
-            answer: "Grow Your Network is a decentralized finance (DeFi) platform that allows users to stake USDT and earn passive income through secure blockchain protocols. Our platform leverages cutting-edge smart contracts to provide transparent, reliable, and high-yield staking opportunities.",
+            question: "What is eVault Crypto Bank?",
+            answer: "eVault Crypto Bank is a decentralized finance (DeFi) platform that allows users to stake USDT and earn passive income through secure blockchain protocols. Our platform leverages cutting-edge smart contracts to provide transparent, reliable, and high-yield staking opportunities.",
             icon: <HelpCircle size={20} />,
             color: "from-blue-500 to-cyan-500"
         },
@@ -173,9 +173,9 @@ const FAQ = () => {
                             <p className="text-gray-500 mb-6">Can't find the answer you're looking for? Our support team is here to help.</p>
                         </div>
                         <div className="flex flex-col sm:flex-row gap-4">
-                            <button className="bg-gradient-to-r from-[#0F172A] to-[#1E293B] text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                            <a href="mailto:support@evaultcryptobank.com" className="bg-gradient-to-r from-[#0F172A] to-[#1E293B] text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                                 Contact Support
-                            </button>
+                            </a>
                             <button className="border-2 border-[#D4AF37] text-[#D4AF37] font-bold py-3 px-8 rounded-xl hover:bg-[#D4AF37]/5 transition-all duration-300">
                                 View Documentation
                             </button>

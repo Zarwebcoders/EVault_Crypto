@@ -73,16 +73,16 @@ const Roadmap = () => {
                         <Crown size={12} className="inline mr-2" />
                         Strategic Journey
                     </motion.div>
-                    
+
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         className="text-4xl md:text-5xl font-black text-[#0F172A] mb-6 tracking-tight"
                     >
-                        The Golden Journey of <span className="text-gradient-gold">EVault</span>
+                        The Golden Journey of <span className="text-gradient-gold">eVault Crypto Bank</span>
                     </motion.h2>
-                    
+
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -108,8 +108,8 @@ const Roadmap = () => {
                                 initial={{ opacity: 0, y: 50, scale: 0.95 }}
                                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                                 viewport={{ once: true, margin: "-100px" }}
-                                transition={{ 
-                                    duration: 0.6, 
+                                transition={{
+                                    duration: 0.6,
                                     delay: index * 0.15,
                                     type: "spring",
                                     stiffness: 100
@@ -123,18 +123,18 @@ const Roadmap = () => {
                                         {item.status === 'active' && (
                                             <div className="absolute -inset-2 rounded-full border-2 border-[#FFD700]/30 animate-ping-slow"></div>
                                         )}
-                                        
+
                                         {/* Icon Container with Gold Gradient */}
                                         <div className={`w-12 h-12 rounded-full flex items-center justify-center shadow-lg ${item.status === 'completed' ? 'bg-gradient-to-br from-[#D4AF37] to-[#B8860B] text-white' : item.status === 'active' ? 'bg-gradient-to-br from-[#FFD700] to-[#D4AF37] text-white shadow-[#FFD700]/50' : 'bg-gradient-to-br from-gray-200 to-gray-300 text-gray-500'}`}>
                                             {getIcon(index)}
                                         </div>
-                                        
+
                                         {/* Status Badge with Gold Crown for Completed */}
                                         <div className={`absolute -top-3 -right-3 w-8 h-8 rounded-full flex items-center justify-center border-2 border-white shadow-lg ${item.status === 'completed' ? 'bg-gradient-to-br from-[#D4AF37] to-[#B8860B]' : item.status === 'active' ? 'bg-gradient-to-br from-[#FFD700] to-[#FFA500]' : 'bg-gray-400'}`}>
                                             {item.status === 'completed' ? <Crown size={12} className="text-white" /> : getStatusIcon(item.status)}
                                         </div>
                                     </div>
-                                    
+
                                     {/* Connecting Line (Mobile) */}
                                     {index < roadmapData.length - 1 && (
                                         <div className="md:hidden absolute top-full left-1/2 transform -translate-x-1/2 w-[2px] h-32 bg-gradient-to-b from-[#D4AF37]/30 to-gray-100"></div>
@@ -145,42 +145,41 @@ const Roadmap = () => {
                                 <div className={`w-full md:w-[calc(50%-8rem)] mt-24 md:mt-0 ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
                                     <motion.div
                                         whileHover={{ scale: 1.02, y: -5 }}
-                                        className={`relative bg-gradient-to-br from-white to-[#FFFBF5] p-8 rounded-3xl shadow-2xl border-2 ${item.status === 'completed' ? 'border-[#FFEBB2] shadow-[#D4AF37]/20' : item.status === 'active' ? 'border-[#FFD700]/40 shadow-[#FFD700]/20' : 'border-gray-200'} hover:shadow-[0_25px_50px_-12px_rgba(212,175,55,0.3)] hover:border-[#D4AF37]/60 transition-all duration-500 group overflow-hidden`}
+                                        className={`relative bg-gradient-to-br from-white to-[#FFFBF5] p-6 rounded-3xl shadow-2xl border-2 ${item.status === 'completed' ? 'border-[#FFEBB2] shadow-[#D4AF37]/20' : item.status === 'active' ? 'border-[#FFD700]/40 shadow-[#FFD700]/20' : 'border-gray-200'} hover:shadow-[0_25px_50px_-12px_rgba(212,175,55,0.3)] hover:border-[#D4AF37]/60 transition-all duration-500 group overflow-hidden`}
                                     >
-                                        
-                                        
-                                        
                                         {/* Gold Corner Accents */}
                                         <div className="absolute top-4 left-4 w-3 h-3 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#B8860B] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                         <div className="absolute bottom-4 right-4 w-3 h-3 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#B8860B] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                        
-                                        {/* Date Badge with Gold Theme */}
-                                        <div className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-full border ${getStatusColor(item.status)} mb-6 group-hover:border-[#D4AF37] group-hover:bg-gradient-to-r from-[#FFF8E1] to-[#FFEBB2] group-hover:text-[#B8860B] group-hover:shadow-lg group-hover:shadow-[#D4AF37]/20 transition-all duration-300`}>
-                                            <Clock size={14} />
-                                            <span className="font-bold">{item.date}</span>
-                                            {item.status === 'active' && (
-                                                <div className="ml-2 w-2 h-2 rounded-full bg-[#FFD700] animate-pulse"></div>
-                                            )}
-                                        </div>
 
-                                        {/* Title with Gold Icon */}
-                                        <h3 className="text-2xl font-black text-[#0F172A] mb-4 group-hover:text-[#B8860B] transition-colors duration-300 flex items-center gap-3">
-                                            {index % 2 === 0 ? (
-                                                <>
-                                                    <span>{item.title}</span>
-                                                    <div className={`p-2.5 rounded-xl shadow-lg ${item.status === 'completed' ? 'bg-gradient-to-br from-[#FFF8E1] to-[#FFEBB2] text-[#B8860B]' : item.status === 'active' ? 'bg-gradient-to-br from-[#FFD700] to-[#D4AF37] text-white' : 'bg-gradient-to-br from-gray-200 to-gray-300 text-gray-500'}`}>
-                                                        {getIcon(index)}
-                                                    </div>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <div className={`p-2.5 rounded-xl shadow-lg ${item.status === 'completed' ? 'bg-gradient-to-br from-[#FFF8E1] to-[#FFEBB2] text-[#B8860B]' : item.status === 'active' ? 'bg-gradient-to-br from-[#FFD700] to-[#D4AF37] text-white' : 'bg-gradient-to-br from-gray-200 to-gray-300 text-gray-500'}`}>
-                                                        {getIcon(index)}
-                                                    </div>
-                                                    <span>{item.title}</span>
-                                                </>
-                                            )}
-                                        </h3>
+                                        {/* Date Badge with Gold Theme */}
+                                        <div className="flex items-center gap-4">
+                                            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border ${getStatusColor(item.status)} mb-6 group-hover:border-[#D4AF37] group-hover:bg-gradient-to-r from-[#FFF8E1] to-[#FFEBB2] group-hover:text-[#B8860B] group-hover:shadow-lg group-hover:shadow-[#D4AF37]/20 transition-all duration-300`}>
+                                                <Clock size={14} />
+                                                <span className="font-bold">{item.date}</span>
+                                                {item.status === 'active' && (
+                                                    <div className="ml-2 w-2 h-2 rounded-full bg-[#FFD700] animate-pulse"></div>
+                                                )}
+                                            </div>
+
+                                            {/* Title with Gold Icon */}
+                                            <h3 className="text-2xl font-black text-[#0F172A] mb-4 group-hover:text-[#B8860B] transition-colors duration-300 flex items-center gap-3">
+                                                {index % 2 === 0 ? (
+                                                    <>
+                                                        <span>{item.title}</span>
+                                                        <div className={`p-2.5 rounded-xl shadow-lg ${item.status === 'completed' ? 'bg-gradient-to-br from-[#FFF8E1] to-[#FFEBB2] text-[#B8860B]' : item.status === 'active' ? 'bg-gradient-to-br from-[#FFD700] to-[#D4AF37] text-white' : 'bg-gradient-to-br from-gray-200 to-gray-300 text-gray-500'}`}>
+                                                            {getIcon(index)}
+                                                        </div>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <div className={`p-2.5 rounded-xl shadow-lg ${item.status === 'completed' ? 'bg-gradient-to-br from-[#FFF8E1] to-[#FFEBB2] text-[#B8860B]' : item.status === 'active' ? 'bg-gradient-to-br from-[#FFD700] to-[#D4AF37] text-white' : 'bg-gradient-to-br from-gray-200 to-gray-300 text-gray-500'}`}>
+                                                            {getIcon(index)}
+                                                        </div>
+                                                        <span>{item.title}</span>
+                                                    </>
+                                                )}
+                                            </h3>
+                                        </div>
 
                                         {/* Description */}
                                         <p className={`text-gray-600 leading-relaxed ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'} font-medium text-lg`}>
@@ -207,7 +206,7 @@ const Roadmap = () => {
                         </div>
                     </button>
                     <p className="text-gray-500 mt-4 text-lg">Be part of the golden evolution in decentralized finance</p>
-                    
+
                     {/* Golden Stats */}
                     <div className="flex justify-center gap-8 mt-8">
                         <div className="text-center">

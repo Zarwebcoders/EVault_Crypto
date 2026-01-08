@@ -72,6 +72,19 @@ const Footer = () => {
                     <div className="col-span-1 md:col-span-2">
                         <h4 className="font-bold text-gold mb-6 uppercase tracking-wider text-sm">Newsletter</h4>
                         <p className="text-gray-400 text-sm mb-6">Subscribe to our newsletter for the latest staking rates.</p>
+
+                        <div className="flex items-center gap-3 mb-6 bg-white/5 p-3 rounded-lg border border-white/5">
+                            <div className="w-8 h-8 rounded-full bg-gold/10 flex items-center justify-center text-gold">
+                                <Mail size={16} />
+                            </div>
+                            <div>
+                                <div className="text-xs text-gray-400 font-bold uppercase">Support Email</div>
+                                <a href="mailto:support@evaultcryptobank.com" className="text-white hover:text-gold transition-colors text-sm font-medium">
+                                    support@evaultcryptobank.com
+                                </a>
+                            </div>
+                        </div>
+
                         <div className="flex bg-white/5 p-1 rounded-lg border border-white/10 focus-within:border-gold/50 transition-colors">
                             <input
                                 type="email"
@@ -87,7 +100,7 @@ const Footer = () => {
 
                 <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
                     <p>
-                        © {new Date().getFullYear()} EVaultCrypto. All rights reserved.
+                        © {new Date().getFullYear()} eVault Crypto Bank. All rights reserved.
                     </p>
                     <div className="flex gap-6">
                         <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>

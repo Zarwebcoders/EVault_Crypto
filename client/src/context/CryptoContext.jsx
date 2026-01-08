@@ -147,6 +147,15 @@ export const CryptoProvider = ({ children }) => {
         }
     };
 
+    const forgotPassword = async (email, password) => {
+        try {
+            const { data } = await api.post('/auth/forgot-password', { email, password });
+            return { success: true, message: data.message };
+        } catch (err) {
+            return { success: false, message: err.response?.data?.message || 'Password reset failed' };
+        }
+    };
+
     const updateUserProfile = async (userData) => {
         try {
             const { data } = await api.put('/auth/profile', userData);
@@ -318,7 +327,9 @@ export const CryptoProvider = ({ children }) => {
             approveWithdrawal,
             rejectWithdrawal,
             updateRequestWallet,
-            claimROI
+
+            claimROI,
+            forgotPassword
         }}>
             {children}
         </CryptoContext.Provider>

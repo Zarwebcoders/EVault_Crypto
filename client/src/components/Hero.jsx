@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Facebook, Twitter, Instagram, Send, X, TrendingUp, DollarSign, Calendar, Zap } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Send, X, TrendingUp, DollarSign, Calendar, Zap, Gamepad2 } from 'lucide-react';
+import CalculatorModal from './CalculatorModal';
 
 const Hero = () => {
     const [text, setText] = useState('');
@@ -8,6 +9,7 @@ const Hero = () => {
     const [loopNum, setLoopNum] = useState(0);
     const [typingSpeed, setTypingSpeed] = useState(100);
     const [dailyIncome, setDailyIncome] = useState(0);
+    const [isCalculatorOpen, setIsCalculatorOpen] = useState(false);
 
     const words = ['Passive Income', 'Daily Rewards', 'Automatic Yield'];
 
@@ -61,7 +63,7 @@ const Hero = () => {
     }, []);
 
     return (
-        <section className="relative pt-32 pb-20 md:pt-28 md:min-h-screen flex items-center overflow-hidden bg-[#FAFAF9]">
+        <section className="relative pt-10 pb-20 md:pt-28 md:min-h-screen flex items-center overflow-hidden bg-[#FAFAF9]">
             {/* Background Gradients - Gold Enhanced */}
             <div className="absolute top-0 right-0 w-[60%] h-full bg-gradient-to-l from-gold/5 to-transparent pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-[50%] h-[50%] bg-gradient-to-t from-gold/10 to-transparent pointer-events-none" />
@@ -72,24 +74,27 @@ const Hero = () => {
             />
 
             {/* Floating Social Sidebar - Fixed Position */}
-            <div className="hidden lg:flex fixed left-0 top-1/2 -translate-y-1/2 z-40 flex-col gap-3 pl-4">
-                {[
-                    { Icon: Facebook, color: "bg-blue-600" },
-                    { Icon: Instagram, color: "bg-pink-600" },
-                    { Icon: Send, color: "bg-blue-400" },
-                    { Icon: X, color: "bg-black" }
-                ].map((item, index) => (
-                    <motion.a
-                        key={index}
-                        href="#"
-                        initial={{ x: -50, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ delay: 1 + (index * 0.1) }}
-                        className={`w-10 h-10 rounded-full ${item.color} text-white flex items-center justify-center shadow-lg hover:scale-110 hover:shadow-xl transition-all duration-300`}
-                    >
-                        <item.Icon size={18} />
-                    </motion.a>
-                ))}
+            <div className="hidden lg:flex fixed left-0 top-1/2 -translate-y-1/2 z-40 group">
+                {/* Hover Trigger Zone */}
+                <div className="absolute left-0 -top-20 w-8 h-[200%] bg-transparent z-50" />
+
+                <div className="flex flex-col gap-3 pl-4 transition-transform duration-500 ease-out transform -translate-x-[150%] group-hover:translate-x-0 bg-white/80 backdrop-blur-sm py-4 pr-2 rounded-r-2xl border-y border-r border-gray-400 shadow-2xl hover:shadow-3xl shadow-black">
+                    {[
+                        { Icon: Facebook, color: "bg-blue-600" },
+                        { Icon: Instagram, color: "bg-pink-600" },
+                        { Icon: Send, color: "bg-blue-400" },
+                        { Icon: Twitter, color: "bg-black" },
+                        { Icon: Gamepad2, color: "bg-[#5865F2]" }
+                    ].map((item, index) => (
+                        <a
+                            key={index}
+                            href="#"
+                            className={`w-10 h-10 rounded-full ${item.color} text-white flex items-center justify-center shadow-lg hover:scale-110 hover:shadow-xl transition-all duration-300`}
+                        >
+                            <item.Icon size={18} />
+                        </a>
+                    ))}
+                </div>
             </div>
 
             <div className="container mx-auto px-6 relative z-10">
@@ -101,14 +106,14 @@ const Hero = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
-                            className="text-6xl md:text-7xl font-black text-[#0F172A] leading-[1.05] mb-8 font-sans tracking-tight"
+                            className="text-5xl md:text-6xl font-black text-[#0F172A] leading-[1.05] mb-8 font-sans tracking-tight"
                         >
                             Earn <br />
                             <span className="text-gradient-gold">
                                 {text}
                                 <span className="inline-block w-[3px] h-[1em] bg-[#D4AF37] ml-1 animate-pulse" />
                             </span> <br />
-                            with EVault
+                            with eVault Crypto Bank
                         </motion.h1>
 
 
@@ -136,7 +141,10 @@ const Hero = () => {
                                 <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                             </button>
 
-                            <button className="border-2 border-[#0F172A] text-[#0F172A] hover:bg-[#0F172A] hover:text-white text-lg font-bold py-4 px-8 rounded-xl transition-all duration-300 flex items-center justify-center gap-2">
+                            <button
+                                onClick={() => setIsCalculatorOpen(true)}
+                                className="border-2 border-[#0F172A] text-[#0F172A] hover:bg-[#0F172A] hover:text-white text-lg font-bold py-4 px-8 rounded-xl transition-all duration-300 flex items-center justify-center gap-2"
+                            >
                                 <DollarSign size={20} />
                                 <span>Calculate APY</span>
                             </button>
@@ -150,15 +158,15 @@ const Hero = () => {
                             className="flex flex-wrap gap-6 mt-12 justify-center lg:justify-start"
                         >
                             <div className="text-center">
-                                <div className="text-3xl font-black text-[#0F172A]">45K+</div>
+                                <div className="text-3xl font-black text-[#0F172A]">45+</div>
                                 <div className="text-gray-500 text-sm">Active Users</div>
                             </div>
                             <div className="text-center">
-                                <div className="text-3xl font-black text-[#0F172A]">$2.1B+</div>
-                                <div className="text-gray-500 text-sm">Assets Staked</div>
+                                <div className="text-3xl font-black text-[#0F172A]">25.4M</div>
+                                <div className="text-gray-500 text-sm">Total Stake</div>
                             </div>
                             <div className="text-center">
-                                <div className="text-3xl font-black text-[#0F172A]">12.5%</div>
+                                <div className="text-3xl font-black text-[#0F172A]">30-36%</div>
                                 <div className="text-gray-500 text-sm">Avg. APY</div>
                             </div>
                         </motion.div>
@@ -186,7 +194,7 @@ const Hero = () => {
                                 <div className="bg-[#0F172A] h-24 rounded-2xl mb-4 p-4 flex flex-col justify-between relative overflow-hidden">
                                     <div className="absolute right-0 top-0 w-16 h-16 bg-gold/20 rounded-full blur-xl transform translate-x-1/2 -translate-y-1/2" />
                                     <div className="flex justify-between items-center text-white/80 text-xs font-bold uppercase">
-                                        <span>EVault</span>
+                                        <span>eVault Crypto Bank</span>
                                         <span>ID: 8392</span>
                                     </div>
                                     <div className="text-white font-bold text-lg">Income Dashboard</div>
@@ -233,7 +241,7 @@ const Hero = () => {
                                     <div className="absolute top-0 right-0 w-32 h-32 bg-gold/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
 
                                     <div className="flex justify-between items-start mb-6">
-                                        <div className="text-xl font-black">EVault</div>
+                                        <div className="text-xl font-black">eVault Crypto Bank</div>
                                         <div className="bg-green-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Active</div>
                                     </div>
 
@@ -290,6 +298,8 @@ const Hero = () => {
 
                 </div>
             </div>
+
+            <CalculatorModal isOpen={isCalculatorOpen} onClose={() => setIsCalculatorOpen(false)} />
         </section>
     );
 };
