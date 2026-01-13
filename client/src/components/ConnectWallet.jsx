@@ -1,8 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Wallet, Zap, Link, Shield, ChevronRight, Sparkles, Lock, Globe, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const ConnectWallet = () => {
+    const navigate = useNavigate();
     const wallets = [
         {
             name: "Coinbase",
@@ -183,7 +185,7 @@ const ConnectWallet = () => {
                             <p className="text-gray-500 text-sm">Select your wallet above to start your journey with eVault Crypto Bank.</p>
                         </div>
 
-                        <button className="bg-gradient-to-r from-[#0F172A] to-[#1E293B] text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-2 group">
+                        <button onClick={() => navigate('/login')} className="bg-gradient-to-r from-[#0F172A] to-[#1E293B] text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-2 group">
                             <span>Connect Wallet</span>
                             <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
                         </button>

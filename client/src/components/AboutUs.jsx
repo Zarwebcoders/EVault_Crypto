@@ -1,9 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Globe, Zap, CheckCircle2, ArrowRight } from 'lucide-react';
-import eVaultLogo from '../../public/eVaultLogoTransparent3.png';
+import eVaultLogo from '../../public/evaultbg.png';
+import { useNavigate } from 'react-router-dom';
 
 const AboutUs = () => {
+    const navigate = useNavigate();
     const features = [
         "Decentralized Banking",
         "Instant Withdrawals",
@@ -99,13 +101,19 @@ const AboutUs = () => {
                             </div>
 
                             <div className="flex flex-col sm:flex-row gap-4">
-                                <button className="border-2 border-black text-black font-bold py-3 px-6 rounded-xl shadow-lg hover:translate-y-[-2px] transition-all group flex items-center justify-center gap-2">
+                                <button onClick={() => navigate('/login')} className="border-2 border-black text-black font-bold py-3 px-6 rounded-xl shadow-lg hover:translate-y-[-2px] transition-all group flex items-center justify-center gap-2">
                                     Start Journey
                                     <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                                 </button>
-                                <button className="border-2 border-gray-500 text-navy font-bold py-3 px-6 rounded-xl">
+                                <a
+                                    href="/evoult about us.docx"
+                                    download
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="border-2 border-gray-500 text-[#0F172A] font-bold py-3 px-6 rounded-xl flex items-center justify-center hover:bg-gray-50 transition-colors"
+                                >
                                     Learn More
-                                </button>
+                                </a>
                             </div>
                         </motion.div>
                     </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Wallet, Coins, TrendingUp, Unlock } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const steps = [
     {
@@ -30,6 +31,7 @@ const steps = [
 ];
 
 const StakingInfo = () => {
+    const navigate = useNavigate();
     return (
         <section id="how-it-works" className="py-24 bg-[#FAFAF9] relative overflow-hidden">
             <div className="container mx-auto px-6">
@@ -98,6 +100,7 @@ const StakingInfo = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: 0.5 }}
+                            onClick={() => navigate('/login')}
                             className="mt-12 bg-[#0F172A] text-white font-bold py-4 px-10 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all flex items-center gap-2 border-2 border-transparent hover:border-[#D4AF37]"
                         >
                             Start Staking Now <ArrowRight size={18} className="text-[#D4AF37]" />

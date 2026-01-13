@@ -19,7 +19,7 @@ export const CryptoProvider = ({ children }) => {
 
     // ROI Rates (Could be fetched from backend config)
     const [roiRates, setRoiRates] = useState({
-        USDT: { rate: 3.5, period: 'Daily', walletAddress: '' },
+        USDT: { rate: 5, period: 'Monthly', walletAddress: '' },
         DODGE: { rate: 3, period: 'Monthly', walletAddress: '' },
         XRP: { rate: 3, period: 'Monthly', walletAddress: '' },
         ETH: { rate: 2.7, period: 'Monthly', walletAddress: '' },
@@ -109,15 +109,7 @@ export const CryptoProvider = ({ children }) => {
     // CALL 1: UPDATE useEffect
 
 
-    const addFunds = async () => {
-        try {
-            const { data } = await api.put('/auth/profile/funds');
-            setUser(prev => ({ ...prev, balance: data.balance }));
-            return { success: true, message: 'Funds added successfully!' };
-        } catch (error) {
-            return { success: false, message: error.response?.data?.message || 'Failed to add funds' };
-        }
-    };
+
 
     // --- Auth Actions ---
     const login = async (email, password) => {
@@ -312,7 +304,7 @@ export const CryptoProvider = ({ children }) => {
             withdrawalRequests,
             allUsers,
             fetchAdminData,
-            addFunds,
+
             login,
             register,
             updateUserProfile,

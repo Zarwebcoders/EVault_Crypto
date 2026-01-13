@@ -88,19 +88,7 @@ const Withdrawals = () => {
                         <p className="text-gray-400 text-xs font-medium uppercase tracking-wider mb-1">Available Balance</p>
                         <p className="text-3xl font-bold text-[#D4AF37]">${user.balance.toFixed(2)}</p>
                     </div>
-                    {user.balance < 50 && (
-                        <button
-                            onClick={async () => {
-                                const res = await addFunds();
-                                if (res.success) setSuccess(res.message);
-                                else setError(res.message);
-                            }}
-                            className="bg-[#D4AF37]/20 hover:bg-[#D4AF37]/30 text-[#D4AF37] text-xs px-4 py-2 rounded-lg border border-[#D4AF37]/50 transition-all flex items-center gap-2"
-                        >
-                            <ArrowPathIcon className="w-4 h-4" />
-                            Add Test Funds
-                        </button>
-                    )}
+
                 </div>
             </div>
 
@@ -151,8 +139,8 @@ const Withdrawals = () => {
                                                 key={token}
                                                 onClick={() => setMethod(token)}
                                                 className={`relative group cursor-pointer rounded-2xl p-4 transition-all duration-300 border ${method === token
-                                                        ? 'bg-gray-900 border-gray-900 shadow-lg -translate-y-1'
-                                                        : 'bg-white border-gray-200 hover:border-[#D4AF37] hover:shadow-md'
+                                                    ? 'bg-gray-900 border-gray-900 shadow-lg -translate-y-1'
+                                                    : 'bg-white border-gray-200 hover:border-[#D4AF37] hover:shadow-md'
                                                     }`}
                                             >
                                                 {method === token && (

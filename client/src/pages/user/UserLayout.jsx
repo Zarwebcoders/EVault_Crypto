@@ -13,7 +13,7 @@ import {
     ClockIcon
 } from '@heroicons/react/24/outline';
 import { useCrypto } from '../../context/CryptoContext';
-import eVault_Logo from '../../../public/eVaultLogoWithBG2.png';
+import eVault_Logo from '../../../public/evaultbg.png';
 
 const UserLayout = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);

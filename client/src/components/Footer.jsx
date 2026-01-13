@@ -62,7 +62,7 @@ const Footer = () => {
                                 VAULT
                             </div>
                         </div> */}
-                        <img src="/eVaultLogoWithBG2.png" alt="Logo" className="w-52 h-32 mb-6" />
+                        <img src="/evaultbg.png" alt="Logo" className="w-52 h-32 mb-6 bg-white rounded-2xl" />
                         <p className="text-gray-400 leading-relaxed mb-8 text-sm">
                             The world's most trusted staking platform. Secure your future with intelligent crypto investment solutions.
                         </p>

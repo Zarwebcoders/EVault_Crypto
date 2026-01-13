@@ -1,8 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Lock, Zap, Settings, DollarSign, TrendingUp, Shield, Facebook, Instagram, Send, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const SecurityFeatures = () => {
+    const navigate = useNavigate();
     const features = [
         {
             icon: <Lock size={24} />,
@@ -77,7 +79,7 @@ const SecurityFeatures = () => {
                         </p>
 
                         {/* CTA Button */}
-                        <button className="group inline-flex items-center gap-3 bg-gradient-to-r from-[#0F172A] to-[#1E293B] text-white font-bold py-4 px-8 rounded-xl shadow-2xl hover:shadow-[0_20px_40px_-10px_rgba(212,175,55,0.4)] hover:-translate-y-1 transition-all duration-300">
+                        <button onClick={() => navigate('/login')} className="group inline-flex items-center gap-3 bg-gradient-to-r from-[#0F172A] to-[#1E293B] text-white font-bold py-4 px-8 rounded-xl shadow-2xl hover:shadow-[0_20px_40px_-10px_rgba(212,175,55,0.4)] hover:-translate-y-1 transition-all duration-300">
                             <span className="text-lg">Explore Security Features</span>
                             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#FFD700] to-[#D4AF37] flex items-center justify-center group-hover:scale-110 transition-transform">
                                 <Shield size={16} className="text-[#0F172A]" />

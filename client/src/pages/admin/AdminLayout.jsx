@@ -13,7 +13,7 @@ import {
     ArrowRightOnRectangleIcon,
     EnvelopeIcon
 } from '@heroicons/react/24/outline';
-import eVault_Logo from '../../../public/eVaultLogoWithBG2.png';
+import eVault_Logo from '../../../public/evaultbg.png';
 
 import { useCrypto } from '../../context/CryptoContext';
 

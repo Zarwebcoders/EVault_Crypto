@@ -1,6 +1,7 @@
 import React from 'react';
 import { Star, Quote, Sparkles, Trophy, TrendingUp, Shield, Zap, ChevronRight, Award, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const testimonials = [
     {
@@ -66,6 +67,7 @@ const testimonials = [
 ];
 
 const Testimonials = () => {
+    const navigate = useNavigate();
     return (
         <section id="testimonials" className="py-24 relative overflow-hidden">
 
@@ -238,14 +240,14 @@ const Testimonials = () => {
                         </div>
 
                         <div className="flex flex-col gap-2">
-                            <button className="bg-gradient-to-r from-[#0F172A] to-[#1E293B] text-white font-bold p-3 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2 group">
+                            <button onClick={() => navigate('/login')} className="bg-gradient-to-r from-[#0F172A] to-[#1E293B] text-white font-bold p-3 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2 group">
                                 <span>Get Started Free</span>
                                 <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
                             </button>
-                            <button className="border-2 border-[#D4AF37] text-[#D4AF37] font-bold p-3 rounded-xl hover:bg-[#D4AF37]/5 transition-all duration-300 flex items-center justify-center gap-2">
+                            {/* <button className="border-2 border-[#D4AF37] text-[#D4AF37] font-bold p-3 rounded-xl hover:bg-[#D4AF37]/5 transition-all duration-300 flex items-center justify-center gap-2">
                                 <Shield size={16} />
                                 <span>Read Reviews</span>
-                            </button>
+                            </button> */}
                         </div>
                     </div>
 

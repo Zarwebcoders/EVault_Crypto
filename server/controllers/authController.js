@@ -140,32 +140,7 @@ const getUsers = async (req, res) => {
     }
 };
 
-// @desc    Add test funds (Faucet)
-// @route   PUT /api/auth/profile/funds
-// @access  Private
-const addTestFunds = async (req, res) => {
-    try {
-        const user = await User.findById(req.user.id);
-        if (user) {
-            user.balance += 1000;
-            const updatedUser = await user.save();
-            res.json({
-                _id: updatedUser.id,
-                name: updatedUser.name,
-                email: updatedUser.email,
-                isAdmin: updatedUser.isAdmin,
-                token: generateToken(updatedUser.id),
-                balance: updatedUser.balance,
-                totalInvested: updatedUser.totalInvested,
-                totalROI: updatedUser.totalROI
-            });
-        } else {
-            res.status(404).json({ message: 'User not found' });
-        }
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
+
 
 // @desc    Update user profile
 // @route   PUT /api/auth/profile
@@ -260,7 +235,7 @@ module.exports = {
     getUserProfile,
     updateUserProfile,
     getUsers,
-    addTestFunds,
+
     forgotPassword,
     toggleUserBlockStatus
 };

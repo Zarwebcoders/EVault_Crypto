@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Clock, CheckCircle, Circle, Zap, Target, Rocket, Globe, Shield, Star, Crown, Trophy, Gem } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const roadmapData = [
     {
@@ -36,6 +37,7 @@ const roadmapData = [
 ];
 
 const Roadmap = () => {
+    const navigate = useNavigate();
     const getStatusIcon = (status) => {
         switch (status) {
             case 'completed': return <CheckCircle size={16} className="text-[#D4AF37]" />;
@@ -199,7 +201,7 @@ const Roadmap = () => {
                     viewport={{ once: true }}
                     className="text-center mt-20 pt-12 border-t border-gray-200/50"
                 >
-                    <button className="inline-flex items-center gap-4 px-8 py-4 rounded-2xl bg-gradient-to-r from-[#0F172A] via-[#1E293B] to-[#0F172A] text-white font-bold shadow-2xl hover:shadow-[0_25px_50px_-12px_rgba(212,175,55,0.4)] hover:-translate-y-1 transition-all duration-300 group">
+                    <button onClick={() => navigate('/login')} className="inline-flex items-center gap-4 px-8 py-4 rounded-2xl bg-gradient-to-r from-[#0F172A] via-[#1E293B] to-[#0F172A] text-white font-bold shadow-2xl hover:shadow-[0_25px_50px_-12px_rgba(212,175,55,0.4)] hover:-translate-y-1 transition-all duration-300 group">
                         <span className="text-lg">Join The Golden Journey</span>
                         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#FFD700] to-[#D4AF37] flex items-center justify-center group-hover:scale-110 transition-transform">
                             <Rocket size={18} className="text-[#0F172A]" />

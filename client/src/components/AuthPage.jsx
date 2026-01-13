@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, User, CheckCircle2 } from 'lucide-react';
-import eVault_Logo from '../../public/eVaultLogoTransparent2.png';
+import eVault_Logo from '../../public/evaultbg.png';
 
 import { useCrypto } from '../context/CryptoContext';
 
@@ -114,11 +114,7 @@ const AuthPage = () => {
 
 // --- Sub Components ---
 
-const SocialIcon = ({ icon }) => (
-    <a href="#" className="w-12 h-12 rounded-full border-2 border-gray-500 flex items-center justify-center text-gray-600 hover:bg-gray-50 hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all duration-300 font-bold text-xl shadow-sm">
-        {icon}
-    </a>
-);
+
 
 const SignInForm = ({ toggleMode, onForgotClick }) => {
     const { login } = useCrypto();
@@ -147,13 +143,8 @@ const SignInForm = ({ toggleMode, onForgotClick }) => {
                 <div className="md:hidden flex justify-center">
                     <img src={eVault_Logo} alt="Logo" className="h-36 object-contain" />
                 </div>
-                <h2 className="text-3xl font-bold text-[#0F172A] tracking-tight">Sign In</h2>
-                <div className="flex justify-center space-x-4 my-3">
-                    <SocialIcon icon="G" />
-                    <SocialIcon icon="F" />
-                    <SocialIcon icon="In" />
-                </div>
-                <p className="text-sm text-gray-500 my-3 font-medium">or use your email account</p>
+
+                <h2 className="text-3xl font-bold text-[#0F172A] tracking-tight mb-6">Sign In</h2>
             </div>
 
             <div className="space-y-2">
@@ -234,13 +225,8 @@ const SignUpForm = ({ toggleMode }) => {
                 <div className="md:hidden flex justify-center mb-6">
                     <img src={eVault_Logo} alt="Logo" className="h-12 object-contain" />
                 </div>
-                <h2 className="text-4xl font-bold text-[#0F172A] tracking-tight">Create Account</h2>
-                <div className="flex justify-center space-x-4 mt-6">
-                    <SocialIcon icon="G" />
-                    <SocialIcon icon="F" />
-                    <SocialIcon icon="In" />
-                </div>
-                <p className="text-sm text-gray-500 mt-6 font-medium">or use your email for registration</p>
+
+                <h2 className="text-4xl font-bold text-[#0F172A] tracking-tight mb-8">Create Account</h2>
             </div>
 
             <div className="space-y-4">

@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Calculator, DollarSign, Calendar, TrendingUp, Sparkles, ArrowRight, ChevronDown } from 'lucide-react';
 
 const COIN_DATA = [
-    { id: 'USDT', name: 'USDT', symbol: 'USDT', rate: 3.5, period: 'Daily', color: '#F3BA2F', letter: 'U' },
+    { id: 'USDT', name: 'USDT', symbol: 'USDT', rate: 5, period: 'Monthly', color: '#F3BA2F', letter: 'U' },
     { id: 'DOGE', name: 'Dodge', symbol: 'DOGE', rate: 3, period: 'Monthly', color: '#BA9F33', letter: 'D' },
     { id: 'XRP', name: 'XRP', symbol: 'XRP', rate: 3, period: 'Monthly', color: '#33BAA0', letter: 'X' }, // Custom color for differentiation
     { id: 'ETH', name: 'Ethereum', symbol: 'ETH', rate: 2.7, period: 'Monthly', color: '#627EEA', letter: 'E' },

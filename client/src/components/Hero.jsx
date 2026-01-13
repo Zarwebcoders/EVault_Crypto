@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Facebook, Twitter, Instagram, Send, X, TrendingUp, DollarSign, Calendar, Zap, Gamepad2, Share2 } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { Facebook, Twitter, Instagram, Send, X, TrendingUp, DollarSign, Calendar, Zap, Gamepad2, Share2, Shield, BarChart3, ArrowRight, Wallet, Users, Globe, ExternalLink } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import CalculatorModal from './CalculatorModal';
 
 const Hero = () => {
+    const navigate = useNavigate();
     const [text, setText] = useState('');
     const [isDeleting, setIsDeleting] = useState(false);
     const [loopNum, setLoopNum] = useState(0);
@@ -149,7 +151,10 @@ const Hero = () => {
                             transition={{ delay: 0.4, duration: 0.8 }}
                             className="flex flex-col xs:flex-row gap-3 xs:gap-4 justify-center lg:justify-start w-full"
                         >
-                            <button className="bg-gradient-to-r from-[#0F172A] to-[#1E293B] hover:from-[#1E293B] hover:to-[#0F172A] text-white text-sm xs:text-base sm:text-lg font-semibold xs:font-bold py-3 xs:py-3.5 sm:py-4 px-4 xs:px-6 sm:px-8 md:px-10 lg:px-12 rounded-lg sm:rounded-xl shadow-lg sm:shadow-xl shadow-navy/30 hover:translate-y-[-2px] transition-all relative overflow-hidden group w-full xs:w-auto">
+                            <button
+                                onClick={() => navigate('/login')}
+                                className="bg-gradient-to-r from-[#0F172A] to-[#1E293B] hover:from-[#1E293B] hover:to-[#0F172A] text-white text-sm xs:text-base sm:text-lg font-semibold xs:font-bold py-3 xs:py-3.5 sm:py-4 px-4 xs:px-6 sm:px-8 md:px-10 lg:px-12 rounded-lg sm:rounded-xl shadow-lg sm:shadow-xl shadow-navy/30 hover:translate-y-[-2px] transition-all relative overflow-hidden group w-full xs:w-auto"
+                            >
                                 <span className="relative z-10 flex items-center justify-center xs:justify-start gap-1.5 xs:gap-2">
                                     <span className="truncate">Start Earning</span>
                                     <TrendingUp className="w-4 h-4 xs:w-5 xs:h-5 text-[#D4AF37] flex-shrink-0" />
