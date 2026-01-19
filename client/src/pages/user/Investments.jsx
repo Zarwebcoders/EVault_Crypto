@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import QRCode from 'react-qr-code';
 import { useCrypto } from '../../context/CryptoContext';
 import {
     CalculatorIcon,
@@ -14,8 +15,11 @@ import {
 const Investments = () => {
     const { roiRates, addInvestment, investments, user, claimROI, fetchUserData } = useCrypto();
     const [selectedMethod, setSelectedMethod] = useState('USDT');
+    const [network, setNetwork] = useState('TRC'); // Network State
     const [amount, setAmount] = useState('');
-    const [walletAddress, setWalletAddress] = useState('');
+    const [receiverWalletAddress, setReceiverWalletAddress] = useState('');
+    const [senderWalletAddress, setSenderWalletAddress] = useState('');
+    const [transactionHash, setTransactionHash] = useState('');
     const [projectedReturn, setProjectedReturn] = useState(0);
     const [duration, setDuration] = useState('30 Days');
     const [error, setError] = useState('');
@@ -52,13 +56,46 @@ const Investments = () => {
 
     }, [amount, selectedMethod, roiRates]);
 
-    // Initialize wallet address from user profile if available
+
+    // Initialize sender address from profile
+    useEffect(() => {
+        if (user?.walletAddress) {
+            setSenderWalletAddress(user.walletAddress);
+        }
+    }, [user]);
+
+    // DEBUG: Direct Fetch to verify Backend Data
+    useEffect(() => {
+        const checkConfig = async () => {
+            try {
+                const { data } = await import('../../api/axios').then(m => m.default.get('/config'));
+                console.log("DEBUG DIRECT FETCH:", data);
+                if (data?.roiRates?.[selectedMethod]?.walletAddress) {
+                    console.log("Found wallet:", data.roiRates[selectedMethod].walletAddress);
+                } else {
+                    console.log("No wallet found in direct fetch for", selectedMethod);
+                }
+            } catch (e) {
+                console.error("Direct fetch failed", e);
+            }
+        };
+        checkConfig();
+    }, [selectedMethod]);
+
+    // Initialize receiver wallet address from user profile if available
     // AND Auto-fill Receiver Wallet based on Admin Config (Primary) or History (Secondary)
     useEffect(() => {
         // 1. Check if Admin has configured a wallet for this token
-        const adminWallet = roiRates[selectedMethod]?.walletAddress;
+        // Use optional chaining for safety
+        const rateObj = roiRates?.[selectedMethod];
+        const adminWallet = rateObj?.walletAddress;
+
+        console.log("Investments Debug - Selected:", selectedMethod);
+        console.log("Investments Debug - RateObj:", rateObj);
+        console.log("Investments Debug - AdminWallet:", adminWallet);
+
         if (adminWallet) {
-            setWalletAddress(adminWallet);
+            setReceiverWalletAddress(adminWallet);
             return;
         }
 
@@ -69,13 +106,13 @@ const Investments = () => {
                 .sort((a, b) => new Date(b.createdAt || b.startDate) - new Date(a.createdAt || a.startDate));
 
             if (historyForMethod.length > 0 && historyForMethod[0].receiverWalletAddress) {
-                setWalletAddress(historyForMethod[0].receiverWalletAddress);
+                setReceiverWalletAddress(historyForMethod[0].receiverWalletAddress);
                 return;
             }
         }
 
         // 3. Keep empty if no data
-        setWalletAddress('');
+        setReceiverWalletAddress('');
 
     }, [selectedMethod, investments, roiRates]);
 
@@ -84,22 +121,14 @@ const Investments = () => {
         setError('');
         setSuccess('');
 
-        if (!user?.walletAddress) {
-            setError('Please connect your wallet first to start investing.');
-            return;
-        }
-
-        if (!amount || amount <= 0) {
-            setError('Please enter a valid amount.');
-            return;
-        }
-
         // Add investment
         addInvestment({
             method: selectedMethod,
             amount: parseFloat(amount),
-            walletAddress: user?.walletAddress || '', // Sender
-            receiverWalletAddress: walletAddress // Receiver input
+            walletAddress: senderWalletAddress, // Sender (Manual Input)
+            receiverWalletAddress: receiverWalletAddress, // Receiver input
+            transactionHash: transactionHash,
+            network: network // Include Network
         });
 
         setSuccess('Investment request submitted successfully!');
@@ -183,6 +212,35 @@ const Investments = () => {
                                 </div>
                             </div>
 
+
+                            {/* Network Selection */}
+                            <div className="space-y-4">
+                                <label className="block text-sm font-semibold text-gray-700">Select Network</label>
+                                <div className="grid grid-cols-2 gap-4">
+                                    {['TRC', 'BEP'].map((net) => (
+                                        <div
+                                            key={net}
+                                            onClick={() => setNetwork(net)}
+                                            className={`cursor-pointer rounded-xl p-4 border flex items-center gap-3 transition-all ${network === net
+                                                ? 'bg-gray-900 border-gray-900 text-white shadow-lg'
+                                                : 'bg-white border-gray-200 text-gray-700 hover:border-[#D4AF37]'
+                                                }`}
+                                        >
+                                            <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${network === net ? 'border-[#D4AF37]' : 'border-gray-400'
+                                                }`}>
+                                                {network === net && <div className="w-2.5 h-2.5 rounded-full bg-[#D4AF37]"></div>}
+                                            </div>
+                                            <div>
+                                                <p className="font-bold">{net}</p>
+                                                <p className={`text-xs ${network === net ? 'text-gray-400' : 'text-gray-500'}`}>
+                                                    {net === 'TRC' ? 'Tron Network (TRC20)' : 'BNB Smart Chain (BEP20)'}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {/* Sender Wallet Address (Read-Only) */}
                                 <div className="space-y-2">
@@ -194,25 +252,70 @@ const Investments = () => {
                                         <input
                                             required
                                             type="text"
-                                            value={user?.walletAddress || 'Not Connected'}
-                                            readOnly
-                                            className="block w-full pl-10 pr-4 py-3.5 border border-gray-200 rounded-xl bg-gray-100 text-gray-500 cursor-not-allowed focus:ring-0"
+                                            value={senderWalletAddress}
+                                            onChange={(e) => setSenderWalletAddress(e.target.value)}
+                                            placeholder="Enter your wallet address"
+                                            className="block w-full pl-10 pr-4 py-3.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent transition-all bg-gray-50 focus:bg-white"
                                         />
                                     </div>
                                 </div>
 
-                                {/* Receiver Wallet Address (Editable) */}
-                                <div className="space-y-2">
-                                    <label className="text-sm font-semibold text-gray-700">Receiver Wallet Address</label>
+
+                                {/* Receiver Wallet Address (Editable) & QR Code */}
+                                <div className="space-y-4 md:col-span-2">
+                                    <label className="text-sm font-semibold text-gray-700">Receiver Wallet Details</label>
+
+                                    <div className="flex flex-col md:flex-row gap-6 items-start">
+                                        {/* QR Code Container */}
+                                        <div className="bg-white p-3 rounded-xl border border-gray-200 shadow-sm flex-shrink-0 mx-auto md:mx-0">
+                                            {receiverWalletAddress ? (
+                                                <QRCode
+                                                    value={receiverWalletAddress}
+                                                    size={120}
+                                                    style={{ height: "auto", maxWidth: "100%", width: "120px" }}
+                                                    viewBox={`0 0 256 256`}
+                                                />
+                                            ) : (
+                                                <div className="w-[120px] h-[120px] bg-gray-100 rounded-lg flex items-center justify-center text-xs text-gray-400 text-center px-2">
+                                                    No Address
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div className="flex-grow space-y-2 w-full">
+                                            <div className="relative">
+                                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                    <WalletIcon className="h-5 w-5 text-[#D4AF37]" />
+                                                </div>
+                                                <input
+                                                    type="text"
+                                                    readOnly
+                                                    value={receiverWalletAddress}
+                                                    placeholder="Address will auto-populate..."
+                                                    className="block w-full pl-10 pr-4 py-3.5 border border-gray-200 rounded-xl bg-gray-100 text-gray-500 cursor-not-allowed focus:ring-0 focus:border-gray-200 transaction-all"
+                                                />
+                                            </div>
+                                            <p className="text-xs text-gray-500">Scan this code to send payment directly to the receiver wallet.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                {/* Transaction Hash Input */}
+                                <div className="space-y-2 md:col-span-2">
+                                    <label className="text-sm font-semibold text-gray-700">Investment Hash (Transaction ID)</label>
                                     <div className="relative">
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <WalletIcon className="h-5 w-5 text-[#D4AF37]" />
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-gray-400">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                            </svg>
                                         </div>
                                         <input
                                             type="text"
-                                            value={walletAddress}
-                                            onChange={(e) => setWalletAddress(e.target.value)}
-                                            placeholder="Enter receiver wallet address"
+                                            value={transactionHash}
+                                            onChange={(e) => setTransactionHash(e.target.value)}
+                                            placeholder="Enter transaction hash / ID"
                                             className="block w-full pl-10 pr-4 py-3.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent transition-all bg-gray-50 focus:bg-white"
                                         />
                                     </div>
@@ -300,10 +403,10 @@ const Investments = () => {
 
                                 <button
                                     type="submit"
-                                    className={`w-full py-4 bg-gradient-to-r ${!user?.walletAddress ? 'from-gray-400 to-gray-500 cursor-not-allowed' : 'from-gray-900 to-gray-800 hover:shadow-xl hover:-translate-y-1'} text-white font-bold rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center gap-2 group`}
+                                    className={`w-full py-4 bg-gradient-to-r from-gray-900 to-gray-800 hover:shadow-xl hover:-translate-y-1 text-white font-bold rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center gap-2 group`}
                                 >
-                                    <span>{user?.walletAddress ? 'START INVESTMENT' : 'CONNECT WALLET FIRST'}</span>
-                                    {user?.walletAddress && <ArrowTrendingUpIcon className="w-5 h-5 text-[#D4AF37] group-hover:translate-x-1 transition-transform" />}
+                                    <span>START INVESTMENT</span>
+                                    <ArrowTrendingUpIcon className="w-5 h-5 text-[#D4AF37] group-hover:translate-x-1 transition-transform" />
                                 </button>
                             </div>
                         </form>
@@ -357,10 +460,10 @@ const Investments = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
 
             {/* Investment History */}
-            <div className="space-y-4">
+            < div className="space-y-4" >
                 <div className="flex items-center justify-between px-2">
                     <h2 className="text-xl font-bold text-gray-900">Active Portfolio</h2>
                     <span className="text-sm text-gray-500">{investments.length} Active Positions</span>
@@ -471,8 +574,8 @@ const Investments = () => {
                         </table>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 

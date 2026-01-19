@@ -14,7 +14,7 @@ const configSchema = new mongoose.Schema({
 
 // Ensure we only have one config document
 configSchema.statics.getSingleton = async function () {
-    let config = await this.findOne();
+    let config = await this.findOne().sort({ createdAt: -1 });
     if (!config) {
         // Default Config
         config = await this.create({

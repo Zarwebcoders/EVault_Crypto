@@ -53,7 +53,7 @@ export const CryptoProvider = ({ children }) => {
             if (token) {
                 try {
                     const { data } = await api.get('/auth/profile');
-                    setUser({ ...data, walletConnected: false });
+                    setUser({ ...data });
                     if (data.isAdmin) {
                         fetchAdminData();
                     } else {
@@ -166,10 +166,7 @@ export const CryptoProvider = ({ children }) => {
     };
 
     // --- User Actions ---
-    const connectWallet = (address) => {
-        setUser(prev => ({ ...prev, walletConnected: true, walletAddress: address }));
-        // Optionally save to backend: api.put('/users/profile', { walletAddress: address })
-    };
+
 
     const addInvestment = async (inv) => {
         try {
@@ -309,7 +306,6 @@ export const CryptoProvider = ({ children }) => {
             register,
             updateUserProfile,
             logout,
-            connectWallet,
             addInvestment,
             requestWithdrawal,
             updateRoiRate,
@@ -319,7 +315,6 @@ export const CryptoProvider = ({ children }) => {
             approveWithdrawal,
             rejectWithdrawal,
             updateRequestWallet,
-
             claimROI,
             forgotPassword
         }}>

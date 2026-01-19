@@ -18,11 +18,32 @@ import eVault_Logo from '../../../public/evaultbg.png';
 import { useCrypto } from '../../context/CryptoContext';
 
 const AdminLayout = () => {
-    const { user, allUsers, logout } = useCrypto();
+    const { user, loading, allUsers, logout } = useCrypto();
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [collapsed, setCollapsed] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
+
+    // Protect Admin Route
+    React.useEffect(() => {
+        if (!loading) {
+            if (!user) {
+                navigate('/login');
+            } else if (!user.isAdmin) {
+                navigate('/dashboard');
+            }
+        }
+    }, [user, loading, navigate]);
+
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gray-50">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#D4AF37]"></div>
+            </div>
+        );
+    }
+
+    if (!user || !user.isAdmin) return null; // Prevent flash of content
 
     // Calculate Stats
     const activeUsersCount = allUsers?.length || 0;

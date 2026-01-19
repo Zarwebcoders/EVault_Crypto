@@ -7,7 +7,7 @@ import StakingInfo from './components/StakingInfo';
 import Roadmap from './components/Roadmap';
 import Partners from './components/Partners';
 import Exchanges from './components/Exchanges';
-import ConnectWallet from './components/ConnectWallet';
+
 import SecurityFeatures from './components/SecurityFeatures';
 import NetworkGrowth from './components/NetworkGrowth';
 import Testimonials from './components/Testimonials';
@@ -29,7 +29,7 @@ const LandingPage = () => (
     <StakingInfo />
     <SecurityFeatures />
     <Roadmap />
-    <ConnectWallet />
+
     <Testimonials />
     <NetworkGrowth />
     <FAQ />

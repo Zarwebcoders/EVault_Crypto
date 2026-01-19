@@ -1,5 +1,5 @@
 const express = require('express');
-const { registerUser, loginUser, getUserProfile, updateUserProfile, getUsers, addTestFunds, forgotPassword, toggleUserBlockStatus } = require('../controllers/authController.js');
+const { registerUser, loginUser, getUserProfile, updateUserProfile, getUsers, forgotPassword, toggleUserBlockStatus, updateUserByAdmin } = require('../controllers/authController.js');
 const { protect } = require('../middleware/authMiddleware.js');
 
 const router = express.Router();
@@ -11,6 +11,7 @@ router.get('/profile', protect, getUserProfile);
 router.put('/profile', protect, updateUserProfile);
 
 router.get('/users', protect, getUsers); // Should serve as /api/auth/users
+router.put('/users/:id', protect, updateUserByAdmin); // Update user (password)
 router.put('/users/:id/block', protect, toggleUserBlockStatus);
 
 module.exports = router;

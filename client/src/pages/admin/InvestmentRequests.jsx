@@ -207,6 +207,7 @@ const InvestmentRequests = () => {
                                         <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Wallets</th>
                                         <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Amount</th>
                                         <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Method</th>
+                                        <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Network</th>
                                         <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Date</th>
                                         <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Actions</th>
                                     </tr>
@@ -248,11 +249,16 @@ const InvestmentRequests = () => {
                                             </td>
                                             <td className="px-6 py-4">
                                                 <div className={`px-3 py-1.5 rounded-lg text-xs font-bold text-center ${req.method === 'USDT' ? 'bg-green-100 text-green-700' :
-                                                        req.method === 'BTC' ? 'bg-yellow-100 text-yellow-700' :
-                                                            req.method === 'ETH' ? 'bg-purple-100 text-purple-700' :
-                                                                'bg-pink-100 text-pink-700'
+                                                    req.method === 'BTC' ? 'bg-yellow-100 text-yellow-700' :
+                                                        req.method === 'ETH' ? 'bg-purple-100 text-purple-700' :
+                                                            'bg-pink-100 text-pink-700'
                                                     }`}>
                                                     {req.method}
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <div className="px-3 py-1.5 bg-gray-100 text-gray-700 rounded-lg text-xs font-bold text-center border border-gray-200">
+                                                    {req.network || 'TRC'}
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4">
@@ -310,8 +316,8 @@ const InvestmentRequests = () => {
                                                     key={pageNum}
                                                     onClick={() => setCurrentPendingPage(pageNum)}
                                                     className={`w-8 h-8 rounded-lg text-sm font-medium ${currentPendingPage === pageNum
-                                                            ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white'
-                                                            : 'text-gray-700 hover:bg-gray-100'
+                                                        ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white'
+                                                        : 'text-gray-700 hover:bg-gray-100'
                                                         }`}
                                                 >
                                                     {pageNum}
@@ -359,6 +365,7 @@ const InvestmentRequests = () => {
                                     <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">User</th>
                                     <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Amount</th>
                                     <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Method</th>
+                                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Network</th>
                                     <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Date</th>
                                     <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Status</th>
                                 </tr>
@@ -390,11 +397,16 @@ const InvestmentRequests = () => {
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className={`px-3 py-1.5 rounded-lg text-xs font-bold text-center ${req.method === 'USDT' ? 'bg-green-100 text-green-700' :
-                                                    req.method === 'BTC' ? 'bg-yellow-100 text-yellow-700' :
-                                                        req.method === 'ETH' ? 'bg-purple-100 text-purple-700' :
-                                                            'bg-pink-100 text-pink-700'
+                                                req.method === 'BTC' ? 'bg-yellow-100 text-yellow-700' :
+                                                    req.method === 'ETH' ? 'bg-purple-100 text-purple-700' :
+                                                        'bg-pink-100 text-pink-700'
                                                 }`}>
                                                 {req.method}
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <div className="px-3 py-1.5 bg-gray-100 text-gray-700 rounded-lg text-xs font-bold text-center border border-gray-200">
+                                                {req.network || 'TRC'}
                                             </div>
                                         </td>
                                         <td className="px-6 py-4">
@@ -403,10 +415,10 @@ const InvestmentRequests = () => {
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className={`px-3 py-1.5 rounded-full text-xs font-bold flex items-center justify-center gap-1 ${req.status === 'Active' || req.status === 'Approved'
-                                                    ? 'bg-gradient-to-r from-green-100 to-emerald-100 text-green-700'
-                                                    : req.status === 'Rejected'
-                                                        ? 'bg-gradient-to-r from-red-100 to-rose-100 text-red-700'
-                                                        : 'bg-gray-100 text-gray-700'
+                                                ? 'bg-gradient-to-r from-green-100 to-emerald-100 text-green-700'
+                                                : req.status === 'Rejected'
+                                                    ? 'bg-gradient-to-r from-red-100 to-rose-100 text-red-700'
+                                                    : 'bg-gray-100 text-gray-700'
                                                 }`}>
                                                 {req.status === 'Active' || req.status === 'Approved' ? (
                                                     <CheckCircleIcon className="w-3 h-3" />
@@ -461,8 +473,8 @@ const InvestmentRequests = () => {
                                                 key={pageNum}
                                                 onClick={() => setCurrentHistoryPage(pageNum)}
                                                 className={`w-8 h-8 rounded-lg text-sm font-medium ${currentHistoryPage === pageNum
-                                                        ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white'
-                                                        : 'text-gray-700 hover:bg-gray-100'
+                                                    ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white'
+                                                    : 'text-gray-700 hover:bg-gray-100'
                                                     }`}
                                             >
                                                 {pageNum}

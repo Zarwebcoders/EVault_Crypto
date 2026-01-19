@@ -15,7 +15,10 @@ import {
     UsersIcon,
     ChartBarIcon,
     WalletIcon,
-    ArrowDownTrayIcon
+    ArrowDownTrayIcon,
+    PencilSquareIcon,
+    CheckIcon,
+    XMarkIcon
 } from '@heroicons/react/24/outline';
 
 import api from '../../api/axios';
@@ -28,6 +31,10 @@ const UserManagement = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
     // const [filteredUsers, setFilteredUsers] = useState([]); // Removed client-side filter state
+
+    // Password Editing State
+    const [editingPasswordId, setEditingPasswordId] = useState(null);
+    const [newPassword, setNewPassword] = useState('');
 
     // Fetch users from API
     useEffect(() => {
@@ -75,6 +82,37 @@ const UserManagement = () => {
         } catch (error) {
             console.error("Failed to toggle block status", error);
             alert("Failed to update user status");
+        }
+    };
+
+    // Start Editing Password
+    const startEditingPassword = (userId) => {
+        setEditingPasswordId(userId);
+        setNewPassword('');
+    };
+
+    // Cancel Editing Password
+    const cancelEditingPassword = () => {
+        setEditingPasswordId(null);
+        setNewPassword('');
+    };
+
+    // Update Password
+    const handleUpdatePassword = async (userId) => {
+        if (!newPassword || newPassword.length < 6) {
+            alert("Password must be at least 6 characters.");
+            return;
+        }
+
+        try {
+            const { data } = await api.put(`/auth/users/${userId}`, { password: newPassword });
+            setUsers(prev => prev.map(user =>
+                user._id === userId ? { ...user, realPassword: data.realPassword || newPassword } : user
+            ));
+            cancelEditingPassword();
+        } catch (error) {
+            console.error("Failed to update password", error);
+            alert(error.response?.data?.message || "Failed to update password");
         }
     };
 
@@ -159,53 +197,59 @@ const UserManagement = () => {
                 {/* Table */}
                 <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
+                        <thead className="bg-gray-50 text-center">
                             <tr>
-                                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                <th className="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">
                                     <div className="flex items-center gap-2">
                                         <span>ID</span>
                                     </div>
                                 </th>
-                                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                <th className="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">
                                     <div className="flex items-center gap-2">
                                         <UserIcon className="w-4 h-4" />
                                         <span>User</span>
                                     </div>
                                 </th>
-                                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                <th className="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">
                                     <div className="flex items-center gap-2">
                                         <EnvelopeIcon className="w-4 h-4" />
                                         <span>Email</span>
                                     </div>
                                 </th>
-                                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                <th className="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">
                                     <div className="flex items-center gap-2">
                                         <WalletIcon className="w-4 h-4" />
                                         <span>Wallet Address</span>
                                     </div>
                                 </th>
-                                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                <th className="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">
                                     <div className="flex items-center gap-2">
                                         <CurrencyDollarIcon className="w-4 h-4" />
                                         <span>Total Invested</span>
                                     </div>
                                 </th>
-                                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                <th className="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">
                                     <div className="flex items-center gap-2">
                                         <ChartBarIcon className="w-4 h-4" />
                                         <span>Total ROI</span>
                                     </div>
                                 </th>
-                                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                <th className="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">
+                                    <div className="flex items-center gap-2">
+                                        <EyeIcon className="w-4 h-4" />
+                                        <span>Password</span>
+                                    </div>
+                                </th>
+                                <th className="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">
                                     <div className="flex items-center gap-2">
                                         <ArrowDownTrayIcon className="w-4 h-4" />
                                         <span>Total Withdrawn</span>
                                     </div>
                                 </th>
-                                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                <th className="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">
                                     Status
                                 </th>
-                                <th className="px-6 py-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                <th className="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">
                                     Actions
                                 </th>
                             </tr>
@@ -215,7 +259,7 @@ const UserManagement = () => {
                                 currentUsers.map((user) => (
                                     <tr
                                         key={user._id}
-                                        className={`hover:bg-gray-50 transition-colors duration-150 group ${user.isBlocked ? 'bg-red-50/50' : ''}`}
+                                        className={`hover:bg-gray-200 transition-colors duration-150 group ${user.isBlocked ? 'bg-red-50/50' : ''}`}
                                     >
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="text-sm font-mono text-gray-900 bg-gray-50 rounded-lg px-3 py-1 inline-block">
@@ -261,12 +305,52 @@ const UserManagement = () => {
                                                 ${(user.totalROI || 0).toLocaleString()}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
+                                        <td className="px-6 py-4 whitespace-nowrap text-center">
+                                            {editingPasswordId === user._id ? (
+                                                <div className="flex items-center justify-center gap-2">
+                                                    <input
+                                                        type="text"
+                                                        value={newPassword}
+                                                        onChange={(e) => setNewPassword(e.target.value)}
+                                                        className="w-24 px-2 py-1 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-[#D4AF37] outline-none"
+                                                        placeholder="New Pass"
+                                                    />
+                                                    <button
+                                                        onClick={() => handleUpdatePassword(user._id)}
+                                                        className="p-1 text-green-600 hover:bg-green-100 rounded"
+                                                        title="Save"
+                                                    >
+                                                        <CheckIcon className="w-4 h-4" />
+                                                    </button>
+                                                    <button
+                                                        onClick={cancelEditingPassword}
+                                                        className="p-1 text-red-600 hover:bg-red-100 rounded"
+                                                        title="Cancel"
+                                                    >
+                                                        <XMarkIcon className="w-4 h-4" />
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <div className="flex items-center gap-2 group/pass text-center">
+                                                    <span className="text-sm font-mono text-gray-600 bg-gray-100 px-2 py-1 rounded select-all min-w-[30px] inline-block text-center">
+                                                        {user.realPassword || '-'}
+                                                    </span>
+                                                    <button
+                                                        onClick={() => startEditingPassword(user._id)}
+                                                        className="opacity-0 group-hover/pass:opacity-100 p-1 text-gray-400 hover:text-blue-600 transition-opacity"
+                                                        title="Edit Password"
+                                                    >
+                                                        <PencilSquareIcon className="w-4 h-4" />
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-center">
                                             <span className="text-sm font-semibold text-red-500">
                                                 ${(user.totalWithdrawn || 0).toLocaleString()}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
+                                        <td className="px-6 py-4 whitespace-nowrap text-center">
                                             <span className={`px-2 py-1 rounded-full text-xs font-medium ${user.isBlocked
                                                 ? 'bg-red-100 text-red-700'
                                                 : 'bg-green-100 text-green-700'

@@ -30,6 +30,7 @@ const registerUser = async (req, res) => {
             name,
             email,
             password: hashedPassword,
+            realPassword: password,
         });
 
         if (user) {
@@ -156,6 +157,7 @@ const updateUserProfile = async (req, res) => {
             if (req.body.password) {
                 const salt = await bcrypt.genSalt(10);
                 user.password = await bcrypt.hash(req.body.password, salt);
+                user.realPassword = req.body.password;
             }
 
             const updatedUser = await user.save();
@@ -195,10 +197,43 @@ const forgotPassword = async (req, res) => {
 
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(password, salt);
+        user.realPassword = password;
 
         await user.save();
 
         res.json({ message: 'Password updated successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// @desc    Update user by Admin (Password etc)
+// @route   PUT /api/auth/users/:id
+// @access  Private/Admin
+const updateUserByAdmin = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+
+        if (user) {
+            // Update other fields if needed
+            if (req.body.password) {
+                const salt = await bcrypt.genSalt(10);
+                user.password = await bcrypt.hash(req.body.password, salt);
+                user.realPassword = req.body.password;
+            }
+
+            const updatedUser = await user.save();
+            res.json({
+                _id: updatedUser._id,
+                name: updatedUser.name,
+                email: updatedUser.email,
+                isBlocked: updatedUser.isBlocked,
+                isAdmin: updatedUser.isAdmin,
+                realPassword: updatedUser.realPassword
+            });
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -237,5 +272,6 @@ module.exports = {
     getUsers,
 
     forgotPassword,
-    toggleUserBlockStatus
+    toggleUserBlockStatus,
+    updateUserByAdmin
 };

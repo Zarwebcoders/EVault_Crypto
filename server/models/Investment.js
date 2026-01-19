@@ -14,6 +14,11 @@ const investmentSchema = new mongoose.Schema({
         type: String, // e.g., 'USDT', 'BTC'
         required: true,
     },
+    network: {
+        type: String,
+        enum: ['TRC', 'BEP', 'ERC', 'SOL', 'BSC', 'TRC20', 'BEP20'], // Flexible enum
+        default: 'TRC'
+    },
     status: {
         type: String,
         enum: ['Pending', 'Active', 'Completed'],
@@ -29,6 +34,10 @@ const investmentSchema = new mongoose.Schema({
     },
     receiverWalletAddress: {
         type: String, // Address to receive returns
+        default: ''
+    },
+    transactionHash: {
+        type: String,
         default: ''
     },
     roiRate: {

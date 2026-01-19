@@ -135,13 +135,7 @@ const UserLayout = () => {
 
                     <div className="flex items-center gap-3 sm:gap-6">
                         {/* Wallet Badge */}
-                        <div className={`hidden sm:flex items-center px-4 py-2 rounded-full border text-sm font-semibold transition-colors ${user?.walletConnected
-                            ? 'bg-[#D4AF37]/5 border-[#D4AF37]/20 text-[#D4AF37]'
-                            : 'bg-gray-100 border-gray-200 text-gray-500'
-                            }`}>
-                            <WalletIcon className="w-4 h-4 mr-2" />
-                            {user?.walletConnected ? 'Wallet Connected' : 'No Wallet'}
-                        </div>
+
 
                         {/* Notification Bell */}
                         <button className="relative p-2.5 text-gray-400 hover:text-gray-600 transition-colors rounded-xl hover:bg-gray-50">

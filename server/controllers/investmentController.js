@@ -7,7 +7,7 @@ const roiRates = require('../config/roiRates.js');
 // @route   POST /api/investments
 // @access  Private
 const createInvestment = async (req, res) => {
-    const { amount, method, walletAddress, receiverWalletAddress } = req.body;
+    const { amount, method, walletAddress, receiverWalletAddress, network } = req.body;
 
     try {
         const rateInfo = roiRates[method] || { rate: 0, period: 'Monthly' };
@@ -16,6 +16,7 @@ const createInvestment = async (req, res) => {
             user: req.user._id,
             amount,
             method,
+            network: network || 'TRC', // Save network
             status: 'Pending',
             walletAddress: walletAddress || '',
             receiverWalletAddress: receiverWalletAddress || '',
@@ -145,8 +146,11 @@ const claimInvestmentROI = async (req, res) => {
         const periodDays = investment.roiPeriod === 'Daily' ? 1 : 30;
         const periodMs = periodDays * 24 * 60 * 60 * 1000;
 
+        // Calculate Periods Passed
+        const periodsPassed = Math.floor(diffMs / periodMs);
+
         // Check if claim is available
-        if (diffMs < periodMs) {
+        if (periodsPassed < 1) {
             const timeRemaining = periodMs - diffMs;
             const hours = Math.ceil(timeRemaining / (1000 * 60 * 60));
             return res.status(400).json({
@@ -155,17 +159,20 @@ const claimInvestmentROI = async (req, res) => {
             });
         }
 
-        // Calculate Fixed Profit per Period
-        const claimableAmount = investment.amount * (investment.roiRate / 100);
+        // Calculate Accumulated Profit
+        const profitPerPeriod = investment.amount * (investment.roiRate / 100);
+        const claimableAmount = profitPerPeriod * periodsPassed;
 
         if (claimableAmount <= 0) {
             return res.status(400).json({ message: 'Invalid claim amount' });
         }
 
-        // Update Investment
+        // Update Investment with PRECISE time tracking
+        // Instead of resetting to 'now', we add the exact time for the periods claimed.
+        // This prevents "time slippage" and ensures the user doesn't lose seconds/minutes.
         investment.returns += claimableAmount;
         investment.totalClaimed += claimableAmount;
-        investment.lastClaimedAt = now;
+        investment.lastClaimedAt = new Date(lastClaim + (periodsPassed * periodMs));
         await investment.save();
 
         // Update User Balance
@@ -177,19 +184,15 @@ const claimInvestmentROI = async (req, res) => {
         // Create Transaction
         await Transaction.create({
             user: req.user.id,
-            type: 'Deposit', // Or specialized 'ROI Claim' but Enum might restrict. 
-            // Enum in Transaction.js says 'Deposit', 'Withdrawal'. 
-            // I should check if I can add a new type or if I should reuse 'Deposit'.
-            // Reusing Deposit for now or adding to Enum if I edited it.
-            // I didn't edit Transaction.js Enum. I should probably treat it as a 'Deposit' with method 'ROI'.
+            type: 'Deposit',
             amount: claimableAmount,
-            method: 'ROI - ' + investment.method,
+            method: `ROI Claim (${periodsPassed} periods) - ` + investment.method,
             status: 'Approved',
             txId: 'ROI-' + Math.random().toString(36).substr(2, 9)
         });
 
         res.json({
-            message: 'ROI Claimed Successfully',
+            message: `Successfully claimed ${periodsPassed} period(s) of ROI!`,
             claimedAmount: claimableAmount,
             newBalance: user.balance,
             investment
