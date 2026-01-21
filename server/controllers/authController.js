@@ -46,7 +46,8 @@ const registerUser = async (req, res) => {
 
         if (user) {
             // Create verification url
-            const verifyUrl = `${req.protocol}://localhost:5173/verify-email/${verificationToken}`;
+            const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
+            const verifyUrl = `${clientUrl}/verify-email/${verificationToken}`;
 
             const message = `
                 <h1>Email Verification</h1>
@@ -380,7 +381,8 @@ const resendVerificationEmail = async (req, res) => {
 
         await user.save();
 
-        const verifyUrl = `${req.protocol}://localhost:5173/verify-email/${verificationToken}`;
+        const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
+        const verifyUrl = `${clientUrl}/verify-email/${verificationToken}`;
         const message = `
             <h1>Email Verification</h1>
             <p>Please verify your email address by clicking the link below:</p>
