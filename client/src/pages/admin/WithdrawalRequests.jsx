@@ -43,6 +43,8 @@ const WithdrawalRequests = () => {
     const [copiedAddress, setCopiedAddress] = useState('');
     const [viewQr, setViewQr] = useState(null);
 
+
+
     // Fetch withdrawals from API
     const fetchWithdrawals = async () => {
         setLoading(true);
@@ -317,14 +319,14 @@ const WithdrawalRequests = () => {
                                                 </div>
                                             </div>
                                             <button
-                                                onClick={() => approveWithdrawal(req._id)}
+                                                onClick={() => handleApprove(req._id)}
                                                 className="w-full px-4 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 font-semibold text-sm"
                                             >
                                                 <CheckIcon className="w-5 h-5" />
                                                 Approve Withdrawal
                                             </button>
                                             <button
-                                                onClick={() => rejectWithdrawal(req._id)}
+                                                onClick={() => handleReject(req._id)}
                                                 className="w-full px-4 py-3 bg-gradient-to-r from-white to-gray-50 border-2 border-red-200 text-red-600 rounded-xl hover:bg-red-50 hover:border-red-300 transition-all duration-300 flex items-center justify-center gap-2 font-semibold text-sm"
                                             >
                                                 <XMarkIcon className="w-5 h-5" />

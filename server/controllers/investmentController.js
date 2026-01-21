@@ -98,13 +98,14 @@ const updateInvestment = async (req, res) => {
         const investment = await Investment.findById(req.params.id);
 
         if (investment) {
+            const previousStatus = investment.status;
             investment.status = status || investment.status;
             // Only update wallet addresses if provided (typically Admin edits receiver)
             if (walletAddress !== undefined) investment.walletAddress = walletAddress;
             if (receiverWalletAddress !== undefined) investment.receiverWalletAddress = receiverWalletAddress;
 
             // If approving, ensure startDate is set to now if not already set or logical
-            if (status === 'Active' && investment.status !== 'Active') {
+            if (investment.status === 'Active' && previousStatus !== 'Active') {
                 investment.startDate = Date.now();
                 investment.lastClaimedAt = Date.now(); // Reset claim timer on activation
 

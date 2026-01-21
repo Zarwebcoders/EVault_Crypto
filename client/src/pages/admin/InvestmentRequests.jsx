@@ -38,24 +38,24 @@ const InvestmentRequests = () => {
     const [itemsPerPage, setItemsPerPage] = useState(10);
 
     // Fetch investments from API
-    useEffect(() => {
-        const fetchInvestments = async () => {
-            setLoading(true);
-            try {
-                const { data } = await api.get('/investments/admin', {
-                    params: { search: searchTerm }
-                });
-                setRequests(data);
-                // Reset pages when search changes
-                setCurrentPendingPage(1);
-                setCurrentHistoryPage(1);
-            } catch (error) {
-                console.error("Failed to fetch investments", error);
-            } finally {
-                setLoading(false);
-            }
-        };
+    const fetchInvestments = async () => {
+        setLoading(true);
+        try {
+            const { data } = await api.get('/investments/admin', {
+                params: { search: searchTerm }
+            });
+            setRequests(data);
+            // Reset pages when search changes
+            setCurrentPendingPage(1);
+            setCurrentHistoryPage(1);
+        } catch (error) {
+            console.error("Failed to fetch investments", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         const timeoutId = setTimeout(() => {
             fetchInvestments();
         }, 500);
@@ -63,15 +63,20 @@ const InvestmentRequests = () => {
         return () => clearTimeout(timeoutId);
     }, [searchTerm]);
 
-    // Update requests when an action is performed (handled by context optimistically? 
-    // No, context updates global state. Since we use local state, we should probably refetch or update local state.
-    // For simplicity, we can listen to context changes if context was updated, OR just refetch.
-    // However, context 'approveInvestment' calls API. 
-    // Best UX: When action completes, we should update our local list. 
-    // The user's 'approveInvestment' function likely calls 'fetchAdminData' internally or updates context.
-    // Since we are decoupling from context 'investmentRequests', we might get out of sync.
-    // BUT the user just wants *searching* in API.
-    // I will trigger a refetch if needed. For now let's just implement the search and assume actions will work (they might need a refresh).
+    // Action Handlers with Auto-Refresh
+    const handleApprove = async (id) => {
+        if (window.confirm('Approve this investment?')) {
+            await approveInvestment(id);
+            fetchInvestments(); // Re-fetch to update list
+        }
+    };
+
+    const handleReject = async (id) => {
+        if (window.confirm('Reject this investment?')) {
+            await rejectInvestment(id);
+            fetchInvestments(); // Re-fetch to update list
+        }
+    };
 
     // Clientside filtering for Status and Method (on top of the searched results)
     const filteredRequests = requests.filter(req => {
@@ -284,14 +289,14 @@ const InvestmentRequests = () => {
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center gap-2">
                                                     <button
-                                                        onClick={() => approveInvestment(req._id)}
+                                                        onClick={() => handleApprove(req._id)}
                                                         className="flex-1 px-4 py-2.5 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 font-semibold text-sm"
                                                     >
                                                         <CheckIcon className="w-4 h-4" />
                                                         Approve
                                                     </button>
                                                     <button
-                                                        onClick={() => rejectInvestment(req._id)}
+                                                        onClick={() => handleReject(req._id)}
                                                         className="flex-1 px-4 py-2.5 bg-gradient-to-r from-red-500 to-rose-600 text-white rounded-lg hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 font-semibold text-sm"
                                                     >
                                                         <XMarkIcon className="w-4 h-4" />

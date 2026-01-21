@@ -21,7 +21,8 @@ const requestWithdrawal = async (req, res) => {
         if (isSos) {
             // SOS WITHDRAWAL: Validate against TOTAL INVESTED (Active Investments)
             // Calculate strictly from database to avoid sync issues
-            const activeInvestments = await Investment.find({ user: req.user._id, status: 'Active' });
+            // FILTER BY METHOD (Asset Type)
+            const activeInvestments = await Investment.find({ user: req.user._id, status: 'Active', method: method });
             const totalActiveInvested = activeInvestments.reduce((acc, inv) => acc + inv.amount, 0);
 
             if (amountNum > totalActiveInvested) {
@@ -142,12 +143,14 @@ const updateTransaction = async (req, res) => {
 
 
                     // Find active investments, oldest first
+                    // FILTER BY METHOD
                     const investments = await Investment.find({
                         user: transaction.user,
-                        status: 'Active'
+                        status: 'Active',
+                        method: transaction.method
                     }).sort({ startDate: 1 });
 
-                    console.log(`[SOS Debug] Found ${investments.length} active investments for user ${transaction.user}`);
+                    console.log(`[SOS Debug] Found ${investments.length} active ${transaction.method} investments for user ${transaction.user}`);
                     console.log(`[SOS Debug] Amount to deduct: ${remainingToDeduct}`);
 
                     for (const inv of investments) {
