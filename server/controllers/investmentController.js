@@ -107,13 +107,6 @@ const updateInvestment = async (req, res) => {
             if (status === 'Active' && investment.status !== 'Active') {
                 investment.startDate = Date.now();
                 investment.lastClaimedAt = Date.now(); // Reset claim timer on activation
-
-                // FIX: Update User Total Invested
-                const user = await User.findById(investment.user);
-                if (user) {
-                    user.totalInvested = (user.totalInvested || 0) + investment.amount;
-                    await user.save();
-                }
             }
 
             const updatedInvestment = await investment.save();
